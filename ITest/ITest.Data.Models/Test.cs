@@ -14,9 +14,12 @@ namespace ITest.Data.Models
         }
         public string Name { get; set; } 
 
-        public string AuthorID { get; set; }
+        public Guid AuthorID { get; set; }
         public User Author { get; set; }
 
+        public Guid CatergoryId { get; set; }
+        public Category Category { get; set; }
         public ICollection<Question> Questions { get; set; }
+        public int Duration { get; set; }
     }
 }
