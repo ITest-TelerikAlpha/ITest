@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ITest.Data.Migrations
 {
-    public partial class table : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -227,28 +227,28 @@ namespace ITest.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTests",
+                name: "UserTest",
                 columns: table => new
                 {
-                    TestId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false),
                     Score = table.Column<double>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    TestId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTests", x => new { x.TestId, x.UserId });
+                    table.PrimaryKey("PK_UserTest", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserTests_Tests_TestId",
+                        name: "FK_UserTest_Tests_TestId",
                         column: x => x.TestId,
                         principalTable: "Tests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserTests_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserTest_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -338,9 +338,14 @@ namespace ITest.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTests_UserId1",
-                table: "UserTests",
-                column: "UserId1");
+                name: "IX_UserTest_TestId",
+                table: "UserTest",
+                column: "TestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTest_UserId",
+                table: "UserTest",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -364,7 +369,7 @@ namespace ITest.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserTests");
+                name: "UserTest");
 
             migrationBuilder.DropTable(
                 name: "Questions");

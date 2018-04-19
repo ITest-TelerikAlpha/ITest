@@ -11,9 +11,10 @@ using System;
 namespace ITest.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180419145448_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,7 +96,9 @@ namespace ITest.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId");
+                    b.Property<Guid>("AuthorId");
+
+                    b.Property<string>("AuthorId1");
 
                     b.Property<Guid>("CategoryId");
 
@@ -115,7 +118,7 @@ namespace ITest.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorId1");
 
                     b.HasIndex("CategoryId");
 
@@ -325,7 +328,7 @@ namespace ITest.Data.Migrations
                 {
                     b.HasOne("ITest.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId1");
 
                     b.HasOne("ITest.Data.Models.Category", "Category")
                         .WithMany("Tests")

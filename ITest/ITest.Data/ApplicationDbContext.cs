@@ -20,7 +20,7 @@ namespace ITest.Data
         DbSet<Question> Questions { get; set; }
         DbSet<Answer> Answers { get; set; }
         DbSet<Test> Tests { get; set; }
-        DbSet<UserTests> UserTests { get; set; }
+        DbSet<UserTest> UserTest { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -30,8 +30,8 @@ namespace ITest.Data
                 .WithMany(c=>c.Tests)
                 .HasForeignKey(t=>t.CategoryId);
 
-            builder.Entity<Answer>().
-                HasOne(a => a.Question)
+            builder.Entity<Answer>()
+                .HasOne(a => a.Question)
                 .WithMany(q => q.Answers)
                 .HasForeignKey(a=>a.QuestionId);
 
@@ -40,15 +40,18 @@ namespace ITest.Data
                 .WithMany(t => t.Questions)
                 .HasForeignKey(q=>q.TestId);
 
-            builder.Entity<Test>().
-                HasOne(q => q.Author);
+            builder.Entity<Test>()
+                .HasMany(x => x.UserTest)
+                .WithOne(x => x.Test)
+                .HasForeignKey(x => x.TestId);
 
-            builder.Entity<UserTests>().
-                HasKey(t => new
-                {
-                    t.TestId,
-                    t.UserId
-                });
+            builder.Entity<UserTest>()
+                .HasKey(x => x.Id);
+
+            builder.Entity<User>()
+                .HasMany(x => x.UserTest)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

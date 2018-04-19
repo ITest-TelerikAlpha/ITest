@@ -11,8 +11,8 @@ using System;
 namespace ITest.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180419135038_table")]
-    partial class table
+    [Migration("20180419150441_author")]
+    partial class author
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,9 +96,7 @@ namespace ITest.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("AuthorId");
-
-                    b.Property<string>("AuthorId1");
+                    b.Property<string>("AuthorId");
 
                     b.Property<Guid>("CategoryId");
 
@@ -118,18 +116,17 @@ namespace ITest.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId1");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("ITest.Data.Models.UserTests", b =>
+            modelBuilder.Entity("ITest.Data.Models.UserTest", b =>
                 {
-                    b.Property<Guid>("TestId");
-
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("EndTime");
 
@@ -137,13 +134,17 @@ namespace ITest.Data.Migrations
 
                     b.Property<DateTime>("StartTime");
 
-                    b.Property<string>("UserId1");
+                    b.Property<Guid>("TestId");
 
-                    b.HasKey("TestId", "UserId");
+                    b.Property<string>("UserId");
 
-                    b.HasIndex("UserId1");
+                    b.HasKey("Id");
 
-                    b.ToTable("UserTests");
+                    b.HasIndex("TestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTest");
                 });
 
             modelBuilder.Entity("ITest.Models.User", b =>
@@ -325,7 +326,7 @@ namespace ITest.Data.Migrations
                 {
                     b.HasOne("ITest.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId1");
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("ITest.Data.Models.Category", "Category")
                         .WithMany("Tests")
@@ -333,16 +334,16 @@ namespace ITest.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ITest.Data.Models.UserTests", b =>
+            modelBuilder.Entity("ITest.Data.Models.UserTest", b =>
                 {
                     b.HasOne("ITest.Data.Models.Test", "Test")
-                        .WithMany("UserTests")
+                        .WithMany("UserTest")
                         .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ITest.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithMany("UserTest")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
