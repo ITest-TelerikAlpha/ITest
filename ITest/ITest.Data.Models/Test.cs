@@ -12,14 +12,14 @@ namespace ITest.Data.Models
         {
             this.Questions = new HashSet<Question>();
         }
-        public string Name { get; set; } 
-
-        public Guid AuthorID { get; set; }
+        public string Name { get; set; }
+        public bool IsPublished { get; set; }
+        public int Duration { get; set; }
+        public Guid AuthorId { get; set; }
         public User Author { get; set; }
-
-        public Guid CatergoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public Category Category { get; set; }
         public ICollection<Question> Questions { get; set; }
-        public int Duration { get; set; }
+        public ICollection<UserTests> UserTests { get; set; }
     }
 }

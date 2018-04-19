@@ -7,6 +7,12 @@ namespace ITest.Data.Models
 {
     public class Category : DataModel
     {
+        public Category()
+        {
+            this.Tests = new HashSet<Test>();
+        }
         public string Name { get; set; }
+
+        public ICollection<Test> Tests { get; set; }
     }
 }

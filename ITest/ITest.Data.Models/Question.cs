@@ -14,7 +14,6 @@ namespace ITest.Data.Models
         public string Content { get; set; }
         public Guid TestId { get; set; }
         public Test Test {get; set;}
-
         public ICollection<Answer> Answers { get; set; }
     }
 }
