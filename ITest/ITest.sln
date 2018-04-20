@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITest", "ITest\ITest.csproj", "{151B7369-BEBE-44B5-AFCD-DA6096614FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITest", "ITest\ITest.csproj", "{151B7369-BEBE-44B5-AFCD-DA6096614FBA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{181AA7F6-6F46-4C4F-A6A1-C37E95E7FB24}"
 EndProject
@@ -13,13 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E8CD0001
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{8156C334-B4B3-465C-9E36-EBFB9A80AB2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITest.Data", "ITest.Data\ITest.Data.csproj", "{6D23EE1B-90EC-45A6-A6DD-6AE894CEE67B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITest.Data", "ITest.Data\ITest.Data.csproj", "{6D23EE1B-90EC-45A6-A6DD-6AE894CEE67B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITest.Data.Models", "ITest.Data.Models\ITest.Data.Models.csproj", "{52007FE9-B062-4808-A5AD-C6CCF4E653FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITest.Data.Models", "ITest.Data.Models\ITest.Data.Models.csproj", "{52007FE9-B062-4808-A5AD-C6CCF4E653FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITest.DTO", "ITest.DTO\ITest.DTO.csproj", "{E5C658A9-D43E-4335-AAFA-3CDFE822CC3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITest.DTO", "ITest.DTO\ITest.DTO.csproj", "{E5C658A9-D43E-4335-AAFA-3CDFE822CC3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITest.Services.Data", "ITest.Services.Data\ITest.Services.Data.csproj", "{EC2042F3-4C33-42DF-907D-03978568ABD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITest.Services.Data", "ITest.Services.Data\ITest.Services.Data.csproj", "{EC2042F3-4C33-42DF-907D-03978568ABD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{071E2FD8-E889-45F0-80B0-B8C9A99A27E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITest.Infrastructure", "ITest.Infrastructure\ITest.Infrastructure.csproj", "{58504D09-0C32-4A42-9F03-FF5ED121E78F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,10 @@ Global
 		{EC2042F3-4C33-42DF-907D-03978568ABD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC2042F3-4C33-42DF-907D-03978568ABD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC2042F3-4C33-42DF-907D-03978568ABD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58504D09-0C32-4A42-9F03-FF5ED121E78F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58504D09-0C32-4A42-9F03-FF5ED121E78F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58504D09-0C32-4A42-9F03-FF5ED121E78F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58504D09-0C32-4A42-9F03-FF5ED121E78F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +65,7 @@ Global
 		{52007FE9-B062-4808-A5AD-C6CCF4E653FD} = {181AA7F6-6F46-4C4F-A6A1-C37E95E7FB24}
 		{E5C658A9-D43E-4335-AAFA-3CDFE822CC3F} = {8156C334-B4B3-465C-9E36-EBFB9A80AB2A}
 		{EC2042F3-4C33-42DF-907D-03978568ABD5} = {8156C334-B4B3-465C-9E36-EBFB9A80AB2A}
+		{58504D09-0C32-4A42-9F03-FF5ED121E78F} = {071E2FD8-E889-45F0-80B0-B8C9A99A27E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7233BD63-FBC6-4553-8297-9EE2D4C829A6}
