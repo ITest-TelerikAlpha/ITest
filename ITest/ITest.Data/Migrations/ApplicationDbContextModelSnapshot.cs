@@ -46,6 +46,24 @@ namespace ITest.Data.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("ITest.Data.Models.AnswersToUserTest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AnswerId");
+
+                    b.Property<Guid>("UserTestId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("UserTestId");
+
+                    b.ToTable("AnswersToUserTest");
+                });
+
             modelBuilder.Entity("ITest.Data.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -311,6 +329,19 @@ namespace ITest.Data.Migrations
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ITest.Data.Models.AnswersToUserTest", b =>
+                {
+                    b.HasOne("ITest.Data.Models.Answer", "Answer")
+                        .WithMany("AnswersToUserTests")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ITest.Data.Models.UserTest", "UserTest")
+                        .WithMany("AnswersToUserTests")
+                        .HasForeignKey("UserTestId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ITest.Data.Models.Question", b =>

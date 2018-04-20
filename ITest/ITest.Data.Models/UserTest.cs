@@ -8,6 +8,10 @@ namespace ITest.Data.Models
 {
     public class UserTest
     {
+        public UserTest()
+        {
+            this.AnswersToUserTests = new HashSet<AnswersToUserTest>();
+        }
         [Key]
         public Guid Id { get; set; }
 
@@ -24,5 +28,7 @@ namespace ITest.Data.Models
         public DateTime StartTime { get; set; }
 
         public DateTime EndTime { get; set; }
+
+        public ICollection<AnswersToUserTest> AnswersToUserTests { get; set; }
     }
 }

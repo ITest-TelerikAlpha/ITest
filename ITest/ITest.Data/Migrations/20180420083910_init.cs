@@ -175,8 +175,7 @@ namespace ITest.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AuthorId = table.Column<Guid>(nullable: false),
-                    AuthorId1 = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<string>(nullable: true),
                     CategoryId = table.Column<Guid>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
@@ -190,8 +189,8 @@ namespace ITest.Data.Migrations
                 {
                     table.PrimaryKey("PK_Tests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tests_AspNetUsers_AuthorId1",
-                        column: x => x.AuthorId1,
+                        name: "FK_Tests_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -278,10 +277,45 @@ namespace ITest.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AnswersToUserTest",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AnswerId = table.Column<Guid>(nullable: false),
+                    UserTestId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnswersToUserTest", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AnswersToUserTest_Answers_AnswerId",
+                        column: x => x.AnswerId,
+                        principalTable: "Answers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AnswersToUserTest_UserTest_UserTestId",
+                        column: x => x.UserTestId,
+                        principalTable: "UserTest",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
                 column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnswersToUserTest_AnswerId",
+                table: "AnswersToUserTest",
+                column: "AnswerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnswersToUserTest_UserTestId",
+                table: "AnswersToUserTest",
+                column: "UserTestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -328,9 +362,9 @@ namespace ITest.Data.Migrations
                 column: "TestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tests_AuthorId1",
+                name: "IX_Tests_AuthorId",
                 table: "Tests",
-                column: "AuthorId1");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tests_CategoryId",
@@ -351,7 +385,7 @@ namespace ITest.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Answers");
+                name: "AnswersToUserTest");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -369,13 +403,16 @@ namespace ITest.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Answers");
+
+            migrationBuilder.DropTable(
                 name: "UserTest");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Tests");

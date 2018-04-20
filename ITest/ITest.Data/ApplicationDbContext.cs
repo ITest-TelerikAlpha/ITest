@@ -35,8 +35,8 @@ namespace ITest.Data
                 .WithMany(q => q.Answers)
                 .HasForeignKey(a=>a.QuestionId);
 
-            builder.Entity<Question>().
-                HasOne(q => q.Test)
+            builder.Entity<Question>()
+                .HasOne(q => q.Test)
                 .WithMany(t => t.Questions)
                 .HasForeignKey(q=>q.TestId);
 
@@ -52,6 +52,18 @@ namespace ITest.Data
                 .HasMany(x => x.UserTest)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserTest>()
+                .HasMany(x => x.AnswersToUserTests)
+                .WithOne(x => x.UserTest)
+                .HasForeignKey(x => x.UserTestId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Answer>()
+                .HasMany(x => x.AnswersToUserTests)
+                .WithOne(x => x.Answer)
+                .HasForeignKey(x => x.AnswerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
