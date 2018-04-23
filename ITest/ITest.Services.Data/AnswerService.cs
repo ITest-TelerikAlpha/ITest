@@ -26,5 +26,11 @@ namespace ITest.Services.Data
             this.saver = saver;
             this.mapper = mapper;
         }
+
+        public AnswerDTO GetRightAnswer(QuestionDTO question)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
     }
 }
