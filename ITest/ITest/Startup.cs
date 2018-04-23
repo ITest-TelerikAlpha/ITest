@@ -10,39 +10,94 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ITest.Data;
 using ITest.Models;
+using ITest.Data.Repository;
+using ITest.Data.Saver;
+using ITest.Infrastructure.Providers;
+using AutoMapper;
 using ITest.Services;
+using ITest.Services.Data.Contracts;
+using ITest.Services.Data;
 
 namespace ITest
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
+            this.Environment = env;
         }
 
         public IConfiguration Configuration { get; }
 
+        public IHostingEnvironment Environment { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            this.RegisterData(services);
+            this.RegisterAuthentication(services);
+            this.RegisterServices(services);
+            this.RegisterInfrastructure(services);
+        }
 
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ITestService, TestService>();
+        }
+
+        private void RegisterInfrastructure(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddAutoMapper();
+
+            services.AddScoped<IMappingProvider, MappingProvider>();
+
+        }
+        private void RegisterAuthentication(IServiceCollection services)
+        {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
+            if (this.Environment.IsDevelopment())
+            {
+                services.Configure<IdentityOptions>(options =>
+                {
+                    // Password settings
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 0;
 
-            services.AddMvc();
+                    // Lockout settings
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(1);
+                    options.Lockout.MaxFailedAccessAttempts = 999;
+                });
+            }
+        }
+
+        private void RegisterData(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped<ISaver, EntitySaver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (this.Environment.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();

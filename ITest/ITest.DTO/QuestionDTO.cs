@@ -7,6 +7,7 @@ namespace ITest.DTO
 {
     public class QuestionDTO
     {
+        public Guid Id { get; set; }
         public string Content { get; set; }
         public Guid TestId { get; set; }
         public Test Test { get; set; }
