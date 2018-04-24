@@ -33,3 +33,13 @@
         display: none;
     }
 }
+
+.panel-default > .panel-heading {
+    background-color: #f4a142;
+}
+.nav-tabs > li > a {
+    color: #337ab7;
+}
+.nav-tabs > li.active > a {
+    color: #337ab7;
+}

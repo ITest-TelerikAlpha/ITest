@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace ITest.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator")]
-    [Area("Admin")]
+//    [Authorize(Roles = "Administrator")]
+//    [Area("Admin")]
     public class AdminController: Controller
     {
         private readonly ITestService testService;
@@ -30,9 +30,17 @@ namespace ITest.Areas.Admin.Controllers
             allTestsViewModel.AllTests.Add
                 (new TestViewModel()
                 {
-                    Name = "Test",
+                    Name = "Grozen design",
+                    Category= "Pulen ujas",
                     IsPublished = true
                 });
+            allTestsViewModel.AllTests.Add
+               (new TestViewModel()
+               {
+                   Name = "nqkuv test",
+                   Category = "tiq cvetove...",
+                   IsPublished = false
+               });
             return View(allTestsViewModel);
         }
     }
