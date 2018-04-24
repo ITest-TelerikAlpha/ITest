@@ -85,5 +85,9 @@ namespace ITest.Services.Data
             return testDTO;
         }
 
+        public IQueryable<TestDTO> GetAllTests()
+        {
+            return this.mapper.ProjectTo<TestDTO>(this.testRepository.All);
+        }
     }
 }

@@ -26,21 +26,18 @@ namespace ITest.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var allTestsViewModel = new AllTestsViewModel();
+            var tests= this.testService.GetAllTests().ToList();
 
-            allTestsViewModel.AllTests.Add
+            foreach (var test in tests)
+            {
+                allTestsViewModel.AllTests.Add
                 (new TestViewModel()
                 {
-                    Name = "Grozen design",
-                    Category= "Pulen ujas",
-                    IsPublished = true
+                    Name = test.Name,
+                    Category = test.Category.Name,
+                    IsPublished = test.IsPublished
                 });
-            allTestsViewModel.AllTests.Add
-               (new TestViewModel()
-               {
-                   Name = "nqkuv test",
-                   Category = "tiq cvetove...",
-                   IsPublished = false
-               });
+            }
             return View(allTestsViewModel);
         }
     }

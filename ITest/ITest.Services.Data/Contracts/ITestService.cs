@@ -5,6 +5,7 @@ using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ITest.Services.Data.Contracts
@@ -16,5 +17,7 @@ namespace ITest.Services.Data.Contracts
         void PublishTestFromDraft(TestDTO test);
         TestDTO EditTest(TestDTO test);
         TestDTO GetTestById(string id);
+
+        IQueryable<TestDTO> GetAllTests();
     }
 }
