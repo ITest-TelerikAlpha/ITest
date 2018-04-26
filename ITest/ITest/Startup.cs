@@ -47,6 +47,7 @@ namespace ITest
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITestService, TestService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)

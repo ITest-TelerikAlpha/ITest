@@ -9,7 +9,10 @@ namespace ITest.DTO
     {
         public string Name { get; set; }
         public Category Category { get; set; }
+        public int RequestedTime { get; set; }
         public ICollection<QuestionDTO> Questions { get; set; }
         public bool IsPublished { get; set; }
+
+        public UserDTO Author { get; set; }
     }
 }

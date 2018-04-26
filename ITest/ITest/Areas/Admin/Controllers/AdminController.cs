@@ -1,4 +1,5 @@
 ﻿using ITest.Areas.Admin.Models;
+using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using ITest.Services.Data.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,13 @@ namespace ITest.Areas.Admin.Controllers
     public class AdminController: Controller
     {
         private readonly ITestService testService;
+        private readonly IUserService userservice;
         private readonly IMappingProvider mapper;
 
-        public AdminController(ITestService testService, IMappingProvider mapper)
+        public AdminController(ITestService testService, IUserService userservice, IMappingProvider mapper)
         {
             this.testService = testService;
+            this.userservice = userservice;
             this.mapper = mapper;
         }
 
@@ -39,6 +42,39 @@ namespace ITest.Areas.Admin.Controllers
                 });
             }
             return View(allTestsViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult CreateTest()
+        {
+            return View(new CreateTestViewModel()
+            {
+                Questions = new List<CreateQuestionViewModel>()
+            });
+        }
+
+        [HttpPost]
+        public IActionResult CreateTest(CreateTestViewModel createTestViewModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View(createTestViewModel);
+            }
+
+            var authorID = this.userservice.GetCurrentLoggedUser();
+            var currentTestDTO = this.mapper.MapTo<TestDTO>(createTestViewModel);
+            currentTestDTO.Author.Id = authorID;
+
+            try
+            {
+                this.testService.CreateTest(currentTestDTO);
+            }
+            catch(Exception)
+            {
+                return View(createTestViewModel);
+            }
+            
+
         }
     }
 }
