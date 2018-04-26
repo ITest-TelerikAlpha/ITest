@@ -30,6 +30,10 @@ namespace ITest.Data
                 .WithMany(c=>c.Tests)
                 .HasForeignKey(t=>t.CategoryId);
 
+            builder.Entity<User>()
+                .HasMany(u => u.CreatedTests)
+                .WithOne(ut => ut.Author);
+
             builder.Entity<Answer>()
                 .HasOne(a => a.Question)
                 .WithMany(q => q.Answers)

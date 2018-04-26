@@ -11,9 +11,10 @@ using System;
 namespace ITest.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180425082945_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,8 +114,6 @@ namespace ITest.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId");
-
                     b.Property<Guid>("CategoryId");
 
                     b.Property<DateTime?>("CreatedOn");
@@ -132,8 +131,6 @@ namespace ITest.Data.Migrations
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
 
@@ -174,14 +171,10 @@ namespace ITest.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime?>("DeletedOn");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -358,10 +351,6 @@ namespace ITest.Data.Migrations
 
             modelBuilder.Entity("ITest.Data.Models.Test", b =>
                 {
-                    b.HasOne("ITest.Models.User", "Author")
-                        .WithMany("CreatedTests")
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("ITest.Data.Models.Category", "Category")
                         .WithMany("Tests")
                         .HasForeignKey("CategoryId")

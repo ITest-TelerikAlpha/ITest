@@ -13,12 +13,13 @@ namespace ITest.Models
     {
         public User()
         {
-            this.UserTest = new HashSet<UserTest>(); 
+            this.UserTest = new HashSet<UserTest>();
+            this.CreatedTests = new HashSet<Test>();
         }
         
-
+        public ICollection<Test> CreatedTests { get; set; }
         public ICollection<UserTest> UserTest { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime? DeletedOn { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DateTime? DeletedOn { get; set; }
     }
 }

@@ -73,8 +73,8 @@ namespace ITest.Areas.Admin.Controllers
             {
                 return View(createTestViewModel);
             }
-            
 
+            return View();
         }
     }
 }

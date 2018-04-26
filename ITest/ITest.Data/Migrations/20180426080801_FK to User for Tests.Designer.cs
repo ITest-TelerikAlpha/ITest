@@ -11,9 +11,10 @@ using System;
 namespace ITest.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180426080801_FK to User for Tests")]
+    partial class FKtoUserforTests
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,7 +360,7 @@ namespace ITest.Data.Migrations
             modelBuilder.Entity("ITest.Data.Models.Test", b =>
                 {
                     b.HasOne("ITest.Models.User", "Author")
-                        .WithMany("CreatedTests")
+                        .WithMany()
                         .HasForeignKey("AuthorId");
 
                     b.HasOne("ITest.Data.Models.Category", "Category")
