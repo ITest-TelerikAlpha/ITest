@@ -7,6 +7,10 @@ namespace ITest.Areas.Admin.Models
 {
     public class CreateQuestionViewModel
     {
+        public CreateQuestionViewModel()
+        {
+            this.Answers = new HashSet<CreateAnswerViewModel>();
+        }
         public string Content { get; set; }
         public ICollection<CreateAnswerViewModel> Answers { get; set; }
     }

@@ -43,3 +43,13 @@
 .nav-tabs > li.active > a {
     color: #337ab7;
 }
+
+.checkbox > label {
+    margin-right: 2%;
+}
+.save-buttons{
+    margin-top:2%;
+}
+#save-draft{
+    margin-right:2%;
+}

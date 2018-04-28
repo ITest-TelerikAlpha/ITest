@@ -1,4 +1,75 @@
-﻿
+﻿@model ITest.Areas.Admin.Models.CreateTestViewModel
 @{
     ViewData["Title"] = "CreateTest";
+}
+
+<h1>New Test</h1>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputCity">Test name</label>
+            <input type="text" class="form-control" id="inputName">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputZip">Requested Тime</label>
+            <input type="text" class="form-control" id="inputTime">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputState">Category</label>
+            <select id="inputCategory" class="form-control">
+                <option selected>Choose...</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option>@category.Name</option>
+                }
+            </select>
+            <div>
+                <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="question-container"></div>
+<div class="save-buttons">
+    <button type="button" id="publish" class="btn btn-primary pull-right">Publish</button>
+    <button type="button" id="save-draft" class="btn btn-primary pull-right">Save As Draft</button>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            //var counterAnswers = 0;
+            $("#question-container").on("click", ".new-answer-button", function () {
+                var btn = $(this);
+                $.get("/Admin/Admin/AddNewAnswer", function (data) {
+                    var answerDiv = $("<div/>")
+                        .addClass("answer");
+                    answerDiv.html(data);
+                    //var answerHeader = answerDiv.find(".answer-count");
+                    //counterAnswers = counterAnswers + 1;
+                    //answerHeader.text("Answer " + counter);
+                    btn.parents(".question-container")
+                        .find(".question")
+                        .append(answerDiv);
+                    var answerText = $(".answer-count");
+                    
+                    $("#question-container").append(questionDiv);
+                });
+            });
+            var counter = 0;
+
+            $("#new-question-button").click(function () {
+                $.get("/Admin/Admin/CreateQuestion", function (data) {
+                    
+                    var questionDiv = $("<div/>")
+                        .addClass('question');
+                    questionDiv.html(data);
+                    var questionHeader = questionDiv.find(".question-count");
+                    counter = counter + 1;
+                    questionHeader.text("Question " + counter);
+                    $("#question-container").append(questionDiv);
+                });
+            });
+        });
+    </script>
 }
