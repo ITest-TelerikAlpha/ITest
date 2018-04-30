@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ITest.Services.Data
 {
-    public class UserService :IUserService
+    public class UserService : IUserService
     {
         private readonly IHttpContextAccessor httpContextAccessor;
 

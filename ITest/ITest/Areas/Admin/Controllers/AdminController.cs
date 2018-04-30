@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ITest.Areas.Admin.Controllers
 {
-//    [Authorize(Roles = "Administrator")]C:\Users\Iskra\Desktop\Iskra\ITest\ITest\ITest\Areas\Admin\Controllers\AdminController.cs
+//    [Authorize(Roles = "Administrator")]
     [Area("Admin")]
     public class AdminController: Controller
     {

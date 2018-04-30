@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ITest.DTO
 {
-    class UserTestDTO
+    public class UserTestDTO
     {
-        public Guid TestId { get; set; }
+        public string TestId { get; set; }
 
         public Test Test { get; set; }
 

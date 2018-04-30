@@ -1,4 +1,5 @@
-﻿using ITest.Models;
+﻿using ITest.Data.Models.Abstraction;
+using ITest.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace ITest.Data.Models
 {
-    public class UserTest
+    public class UserTest : IDeletable
     {
         public UserTest()
         {
@@ -30,5 +31,7 @@ namespace ITest.Data.Models
         public DateTime EndTime { get; set; }
 
         public ICollection<AnswersToUserTest> AnswersToUserTests { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletedOn { get; set; }
     }
 }
