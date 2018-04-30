@@ -18,7 +18,7 @@ namespace ITest.Data.Models
 
         public bool IsPublished { get; set; }
 
-        public int Duration { get; set; }
+        public int RequestedTime { get; set; }
         
         public User Author { get; set; }
 

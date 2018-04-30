@@ -9,7 +9,7 @@ namespace ITest.DTO
     {
         public string Content { get; set; }
         public Guid QuestionId { get; set; }
-        public Question Question { get; set; }
+        public QuestionDTO Question { get; set; }
         public bool IsCorrect { get; set; }
     }
 }

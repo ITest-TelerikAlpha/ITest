@@ -7,6 +7,6 @@ namespace ITest.Areas.Admin.Models.AdminViewModels
 {
     public class CategoryViewModel
     {
-        public string Name { get; set; }
+        public string Category { get; set; }
     }
 }

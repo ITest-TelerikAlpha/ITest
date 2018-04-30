@@ -1,66 +1,62 @@
 ﻿@model ITest.Areas.Admin.Models.CreateTestViewModel
+
 @{
     ViewData["Title"] = "CreateTest";
 }
 
 <h1>New Test</h1>
-<form>
+<form method="post" id="form-test">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="inputCity">Test name</label>
+            <label asp-for="Name">Test name</label>
             <input type="text" class="form-control" id="inputName">
         </div>
         <div class="form-group col-md-2">
-            <label for="inputZip">Requested Тime</label>
+            <label asp-for="RequestedTime">Requested Тime</label>
             <input type="text" class="form-control" id="inputTime">
         </div>
         <div class="form-group col-md-4">
-            <label for="inputState">Category</label>
+            <label asp-for="CategoryName">Category</label>
             <select id="inputCategory" class="form-control">
                 <option selected>Choose...</option>
                 @foreach (var category in Model.Categories)
                 {
-                    <option>@category.Name</option>
+                    <option>@category.Category</option>
                 }
             </select>
             <div>
                 <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
             </div>
         </div>
-    </div>
+        <div class="save-buttons">
+            <button type="submit" id="publish" class="btn btn-primary pull-right">Publish</button>
+            <button type="submit" id="save-draft" class="btn btn-primary pull-right">Save As Draft</button>
+        </div>
 </form>
 <div id="question-container"></div>
-<div class="save-buttons">
-    <button type="button" id="publish" class="btn btn-primary pull-right">Publish</button>
-    <button type="button" id="save-draft" class="btn btn-primary pull-right">Save As Draft</button>
-</div>
+ 
+
+
 
 @section Scripts{
     <script>
         $(function () {
-            //var counterAnswers = 0;
             $("#question-container").on("click", ".new-answer-button", function () {
                 var btn = $(this);
                 $.get("/Admin/Admin/AddNewAnswer", function (data) {
                     var answerDiv = $("<div/>")
                         .addClass("answer");
                     answerDiv.html(data);
-                    //var answerHeader = answerDiv.find(".answer-count");
-                    //counterAnswers = counterAnswers + 1;
-                    //answerHeader.text("Answer " + counter);
                     btn.parents(".question-container")
                         .find(".question")
                         .append(answerDiv);
-                    var answerText = $(".answer-count");
-                    
-                    $("#question-container").append(questionDiv);
                 });
             });
             var counter = 0;
 
             $("#new-question-button").click(function () {
                 $.get("/Admin/Admin/CreateQuestion", function (data) {
-                    
+
                     var questionDiv = $("<div/>")
                         .addClass('question');
                     questionDiv.html(data);
@@ -70,6 +66,49 @@
                     $("#question-container").append(questionDiv);
                 });
             });
+        });
+
+        $("#form-test").on("submit", function (ev) {
+            ev.preventDefault();
+            var questions = [];
+
+            $(".form-group.question")
+                .each(function (index, questionContainer) {
+                    var question = $(questionContainer)
+                        .find(".form-control.question")
+
+                    var answers = []
+                    $(questionContainer)
+                        .find(".answer-container")
+                        .each(function (index, answerContainer) {
+                            var answer = $(answerContainer).find(".answer").val();
+                            var isCorrect = $(answerContainer).find(".answer-is-correct:checked").length > 0;
+
+                            answers.push({
+                                Content: answer,
+                                IsCorrect: isCorrect,
+                            });
+                        });
+
+                    questions.push({
+                        Content: question.val(),
+                        Answers: answers
+                    });
+                });
+            var category = $("#inputCategory").find(":selected").text();
+            console.log(category);
+            var data = {
+                Name: $("#inputName").val(),
+                CategoryName: category,
+                RequestedTime: $("#inputTime").val(),
+                IsPublished: "false",
+                Questions: questions,
+            };
+            console.log(data);
+
+            $.post("/Admin/Admin/SaveTest", data);
+
+            return false;
         });
     </script>
 }

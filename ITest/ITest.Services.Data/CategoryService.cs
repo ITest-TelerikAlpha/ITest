@@ -4,6 +4,8 @@ using ITest.Data.Saver;
 using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using ITest.Services.Data.Contracts;
+using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,11 @@ namespace ITest.Services.Data
         {
             var categories = this.mapper.ProjectTo<CategoryDTO>(this.categoriesRepository.All);
             return categories;
+        }
+
+        public string GetCategoryId(string categoryName)
+        {
+            return this.categoriesRepository.All.FirstOrDefault(x => x.Name == categoryName).Id.ToString();
         }
      }
 }

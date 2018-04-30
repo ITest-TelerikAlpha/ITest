@@ -1,4 +1,5 @@
-﻿
+﻿@model ITest.Areas.Admin.Models.CreateAnswerViewModel
+
 @{
     ViewData["Title"] = "NewAnswerPartial";
 }
@@ -8,10 +9,10 @@
         <button type="button" class="btn btn-default pull-right">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
-        <label class="pull-right"><input type="checkbox">Correct Answer</label>
+        <label asp-for="IsCorrect" class="pull-right"><input class="answer-is-correct" type="checkbox">Correct Answer</label>
     </div>
     <div class="answer-count">Answer</div>
-<textarea class="form-control answer" rows="5"></textarea>
+    <textarea asp-for="Content" class="form-control answer" rows="5"></textarea>
 </div>
 
 

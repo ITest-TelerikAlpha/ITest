@@ -9,5 +9,6 @@ namespace ITest.Services.Data.Contracts
     public interface ICategoryService
     {
         IQueryable<CategoryDTO> GetAllCategories();
+        string GetCategoryId(string categoryName);
     }
 }

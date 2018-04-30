@@ -19,14 +19,21 @@ namespace ITest.Services.Data
         private readonly IRepository<Test> testRepository;
         private readonly IRepository<User> userRepository;
         private readonly IRepository<Category> categoryRepository;
+        private readonly ICategoryService categoryService;
         private readonly ISaver saver;
         private readonly IMappingProvider mapper;
 
-        public TestService(IRepository<Test> testRepository, IRepository<User> userRepository, IRepository<Category> categoryRepository, ISaver saver, IMappingProvider mapper)
+        public TestService(IRepository<Test> testRepository, 
+            IRepository<User> userRepository,
+            IRepository<Category> categoryRepository, 
+            ICategoryService categoryService,
+            ISaver saver, 
+            IMappingProvider mapper)
         {
             this.testRepository = testRepository;
             this.userRepository = userRepository;
             this.categoryRepository = categoryRepository;
+            this.categoryService = categoryService;
             this.saver = saver;
             this.mapper = mapper;
         }
@@ -39,8 +46,11 @@ namespace ITest.Services.Data
             }
 
             var testToAdd = this.mapper.MapTo<Test>(test);
-            var category = this.categoryRepository.All.FirstOrDefault(c => c.Name == test.Category.Name);
-            testToAdd.Category = category;
+            testToAdd.CategoryId = Guid.Parse(this.categoryService.GetCategoryId(test.CategoryName));
+           // testToAdd.CategoryId = testToAdd.Category.Id; 
+            this.testRepository.Add(testToAdd);
+            this.saver.SaveChanges();
+
         }
 
         public TestDTO GetRandomTestFromCategory(CategoryDTO category)

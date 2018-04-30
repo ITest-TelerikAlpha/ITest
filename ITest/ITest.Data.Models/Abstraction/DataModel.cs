@@ -16,7 +16,7 @@ namespace ITest.Data.Models.Abstraction
         public DateTime? DeletedOn { get ; set ; }
 
         [DataType(DataType.DateTime)]
-        public DateTime? CreatedOn { get ; set ; }
+        public DateTime? CreatedOn { get; set; } = DateTime.Now;
 
         [DataType(DataType.DateTime)]
         public DateTime? ModifiedOn { get ; set ; }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ITest.Areas.Admin.Models.CreateQuestionViewModel
+
+@{
     ViewData["Title"] = "NewQuestionPartial";
 }
 
@@ -14,7 +16,7 @@
 
     <div class="form-group question">
         <div>Description</div>
-        <textarea class="form-control" rows="5" id="question-content"></textarea>
+        <textarea asp-for="Content" class="form-control question" rows="5" id="question-content"></textarea>
         @Html.Partial("NewAnswerPartial")
         @Html.Partial("NewAnswerPartial")
         @Html.Partial("NewAnswerPartial")
