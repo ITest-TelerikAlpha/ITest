@@ -28,21 +28,21 @@
                 <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
             </div>
         </div>
+        <div id="question-container" class="accordion"></div>
         <div class="save-buttons">
-            <button type="submit" id="publish" class="btn btn-primary pull-right">Publish</button>
-            <button type="submit" id="save-draft" class="btn btn-primary pull-right">Save As Draft</button>
+            <button type="submit" id="publish" class="btn btn-primary pull-right submit">Publish</button>
+            <button type="submit" id="save-draft" class="btn btn-primary pull-right submit">Save As Draft</button>
         </div>
 </form>
-<div id="question-container"></div>
  
-
-
+ 
 
 @section Scripts{
     <script>
-        $(function () {
+        $(function () {          
             $("#question-container").on("click", ".new-answer-button", function () {
                 var btn = $(this);
+                
                 $.get("/Admin/Admin/AddNewAnswer", function (data) {
                     var answerDiv = $("<div/>")
                         .addClass("answer");
@@ -67,11 +67,22 @@
                 });
             });
         });
-
-        $("#form-test").on("submit", function (ev) {
+    
+        
+        $("#publish, #save-draft").on("click", function (ev) {
             ev.preventDefault();
             var questions = [];
+            console.log(ev.target.id)
+            
 
+            //console.log(submissionButton.attr("id"));
+            //var submissionButtonDraft = $("#save-draft").on("click", (function () {
+            //    return $(this).attr("id");
+            //}));
+            //console.log(submissionButtonDraft.attr("id"));
+
+            
+      
             $(".form-group.question")
                 .each(function (index, questionContainer) {
                     var question = $(questionContainer)
@@ -101,10 +112,9 @@
                 Name: $("#inputName").val(),
                 CategoryName: category,
                 RequestedTime: $("#inputTime").val(),
-                IsPublished: "false",
+                IsPublished: ev.target.id === 'publish',
                 Questions: questions,
             };
-            console.log(data);
 
             $.post("/Admin/Admin/SaveTest", data);
 

@@ -62,7 +62,7 @@ namespace ITest.Services.Data
             var userTestsToAdd = new UserTestDTO()
             {
                 UserId = userId,
-                TestId = test.id
+               // TestId = test.id
             };
 
             this.Publish(userTestsToAdd);

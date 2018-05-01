@@ -6,16 +6,17 @@
 
 <div class="question-container">
     <div>
-        <h2 class="question-count">
-            Question 1
-            <button type="button" class="btn btn-default pull-right">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </button>
-        </h2>
+        <h2 style="display: inline-block" class="question-count">
+            Question 1         
+        </h2>     
+        <button  style="margin-top:2%" type="button" class="btn btn-default pull-right">
+             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>   
     </div>
 
     <div class="form-group question">
         <div>Description</div>
+
         <textarea asp-for="Content" class="form-control question" rows="5" id="question-content"></textarea>
         @Html.Partial("NewAnswerPartial")
         @Html.Partial("NewAnswerPartial")

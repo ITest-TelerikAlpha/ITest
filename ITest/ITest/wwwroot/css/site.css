@@ -53,3 +53,9 @@
 #save-draft{
     margin-right:2%;
 }
+.question-count{
+    display: inline-block;
+}
+.btn.btn-default .pull-right .delete-question-button {
+margin-top:2%;
+}

@@ -5,6 +5,12 @@
     <UserSecretsId>aspnet-ITest-3DF0D102-4C07-4F0D-AB0F-FF72FE45C3C2</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="wwwroot\Controllers\AccountController.cs" />
+    <Compile Include="wwwroot\Controllers\HomeController.cs" />
+    <Compile Include="wwwroot\Controllers\ManageController.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
