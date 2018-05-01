@@ -56,12 +56,16 @@
 
             $("#new-question-button").click(function () {
                 $.get("/Admin/Admin/CreateQuestion", function (data) {
+                    var currentNumberOfQuestions = document.getElementsByClassName("question-container").length+1;
 
                     var questionDiv = $("<div/>")
                         .addClass('question');
                     questionDiv.html(data);
                     var questionHeader = questionDiv.find(".question-count");
-                    counter = counter + 1;
+                    if (counter !== currentNumberOfQuestions) {
+
+                        counter = counter + 1;
+                    }
                     questionHeader.text("Question " + counter);
                     $("#question-container").append(questionDiv);
                 });
@@ -73,14 +77,6 @@
             ev.preventDefault();
             var questions = [];
             console.log(ev.target.id)
-            
-
-            //console.log(submissionButton.attr("id"));
-            //var submissionButtonDraft = $("#save-draft").on("click", (function () {
-            //    return $(this).attr("id");
-            //}));
-            //console.log(submissionButtonDraft.attr("id"));
-
             
       
             $(".form-group.question")
@@ -106,8 +102,9 @@
                         Answers: answers
                     });
                 });
+
             var category = $("#inputCategory").find(":selected").text();
-            console.log(category);
+           
             var data = {
                 Name: $("#inputName").val(),
                 CategoryName: category,
@@ -115,7 +112,6 @@
                 IsPublished: ev.target.id === 'publish',
                 Questions: questions,
             };
-
             $.post("/Admin/Admin/SaveTest", data);
 
             return false;
