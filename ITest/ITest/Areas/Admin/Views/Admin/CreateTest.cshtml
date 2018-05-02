@@ -24,6 +24,7 @@
                     <option>@category.Category</option>
                 }
             </select>
+
             <div>
                 <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
             </div>
@@ -33,16 +34,19 @@
             <button type="submit" id="publish" class="btn btn-primary pull-right submit">Publish</button>
             <button type="submit" id="save-draft" class="btn btn-primary pull-right submit">Save As Draft</button>
         </div>
+    </div>
 </form>
- 
- 
+
+
 
 @section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {          
+        $(function () {
+
             $("#question-container").on("click", ".new-answer-button", function () {
                 var btn = $(this);
-                
+
                 $.get("/Admin/Admin/AddNewAnswer", function (data) {
                     var answerDiv = $("<div/>")
                         .addClass("answer");
@@ -56,7 +60,7 @@
 
             $("#new-question-button").click(function () {
                 $.get("/Admin/Admin/CreateQuestion", function (data) {
-                    var currentNumberOfQuestions = document.getElementsByClassName("question-container").length+1;
+                    var currentNumberOfQuestions = document.getElementsByClassName("question-container").length + 1;
 
                     var questionDiv = $("<div/>")
                         .addClass('question');
@@ -71,14 +75,15 @@
                 });
             });
         });
-    
-        
+
+        //$("#question-container").on("click", ".accordion", .accordion({
+        //    collapsible: true
+        //});
+       
         $("#publish, #save-draft").on("click", function (ev) {
             ev.preventDefault();
             var questions = [];
-            console.log(ev.target.id)
-            
-      
+           
             $(".form-group.question")
                 .each(function (index, questionContainer) {
                     var question = $(questionContainer)
@@ -104,7 +109,7 @@
                 });
 
             var category = $("#inputCategory").find(":selected").text();
-           
+
             var data = {
                 Name: $("#inputName").val(),
                 CategoryName: category,
@@ -112,7 +117,9 @@
                 IsPublished: ev.target.id === 'publish',
                 Questions: questions,
             };
-            $.post("/Admin/Admin/SaveTest", data);
+            $.post("/Admin/Admin/SaveTest", data, function (response) {
+                window.location = "/Admin/Admin/Index";
+            });
 
             return false;
         });

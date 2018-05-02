@@ -59,3 +59,18 @@
 .btn.btn-default .pull-right .delete-question-button {
 margin-top:2%;
 }
+.note-editor .note-frame {
+    margin-top: 2%
+}
+
+.ui-helper-hidden-accessible, .ui-tooltip {
+    display: none !important;
+}
+
+.answer-count {
+    margin-bottom: 2%;
+}
+
+
+
+ 

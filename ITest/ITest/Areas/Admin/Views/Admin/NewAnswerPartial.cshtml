@@ -6,14 +6,24 @@
 
 <div class="answer-container">
     <div class="checkbox">
-        <button type="button" class="btn btn-default pull-right">
+        <button type="button" class="btn btn-default pull-right delete-answer-button">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
         <label asp-for="IsCorrect" class="pull-right"><input class="answer-is-correct" type="checkbox">Correct Answer</label>
     </div>
     <div class="answer-count">Answer</div>
-    <textarea asp-for="Content" class="form-control answer" rows="5"></textarea>
+    <textarea asp-for="Content" class="form-control answer summernote" rows="5"></textarea>
 </div>
 
+<script>
+    $(function () {
+        $(".answer-container").on("click", ".delete-answer-button", function () {      
+            $(this).parent().fadeOut("normal", function () {
+                $(this).parent().remove();
+            });          
+        });
+        $('.summernote').summernote();
+    });
+</script>
 
 

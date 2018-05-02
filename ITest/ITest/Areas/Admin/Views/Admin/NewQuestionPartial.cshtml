@@ -5,17 +5,18 @@
 }
 
 <div class="question-container">
-    <h2 style="display: inline-block" class="question-count">
-        Question 1
-    </h2>
-    <button style="margin-top:2%" type="button" class="btn btn-default pull-right delete-question-button">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-    </button>
-
+    <div>
+        <h2 style="display: inline-block" class="question-count">
+            Question 1
+        </h2>
+        <button style="margin-top:2%" type="button" class="btn btn-default pull-right delete-question-button">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+    </div>
 
     <div class="form-group question">
         <div>Description</div>
-        <textarea asp-for="Content" class="form-control question" rows="5" id="question-content"></textarea>
+        <textarea asp-for="Content" class="form-control question summernote" rows="5" id="question-content"></textarea>
         @Html.Partial("NewAnswerPartial")
         @Html.Partial("NewAnswerPartial")
         @Html.Partial("NewAnswerPartial")
@@ -29,7 +30,6 @@
 <script>
     $(function () {
         $("#question-container").on("click", ".delete-question-button", function () {
-
             var currentDeleted = $(this).parent().find(".question-count").text();
             var questionNumber = currentDeleted.split(" ")[1];
 
@@ -41,19 +41,14 @@
                 .each(function (index, questionHeader) {
                     var questionHeader = $(questionHeader)
                         .find(".question-count");
-                    //console.log(questionHeader.text());
                     var numberToUpdate = questionHeader.text().split(" ")[1];
-                    if (numberToUpdate> questionNumber) {
+                    if (numberToUpdate > questionNumber) {
 
                         numberToUpdate = numberToUpdate - 1;
                         questionHeader.text("Question " + numberToUpdate);
-
                     }
-                    
                 });
-
-
         });
-
+        $('.summernote').summernote();
     });
 </script>

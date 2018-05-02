@@ -76,7 +76,7 @@ namespace ITest.Areas.Admin.Controllers
                 this.testService.CreateTest(testDTO);
             }
 
-            return this.RedirectToAction("/Admin/Admin", "Index");
+            return Content("/Admin/Admin/Index");
         }
 
         public IActionResult CreateQuestion()
