@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="wwwroot\Controllers\AccountController.cs" />
-    <Compile Include="wwwroot\Controllers\HomeController.cs" />
-    <Compile Include="wwwroot\Controllers\ManageController.cs" />
+    <Content Include="Controllers\AccountController.cs" />
+    <Content Include="Controllers\HomeController.cs" />
+    <Content Include="Controllers\ManageController.cs" />
   </ItemGroup>
 
 
