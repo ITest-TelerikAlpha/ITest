@@ -7,10 +7,13 @@ namespace ITest.DTO
 {
     public class QuestionDTO
     {
-        //public Guid Id { get; set; }
+        public QuestionDTO()
+        {
+            this.Answers = new HashSet<AnswerDTO>();
+        }
+
         public string Content { get; set; }
-       // public Guid TestId { get; set; }
-        //public TestDTO Test { get; set; }
+        public TestDTO Test { get; set; }
         public ICollection<AnswerDTO> Answers { get; set; }
     }
 }
