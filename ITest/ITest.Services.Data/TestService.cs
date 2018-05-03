@@ -62,7 +62,7 @@ namespace ITest.Services.Data
                             t.IsPublished)
                             .ToList();
 
-            int testIndex = randomInstance.Next(allTestsFromCategory.Count);
+            int testIndex = randomInstance.Next(allTestsFromCategory.Count - 1);
             var test = allTestsFromCategory[testIndex];
 
             var testDto = this.mapper.MapTo<TestDTO>(test);
@@ -94,6 +94,7 @@ namespace ITest.Services.Data
 
             return testDTO;
         }
+        
 
         public IQueryable<TestDTO> GetAllTests()
         {
