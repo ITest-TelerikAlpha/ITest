@@ -73,6 +73,8 @@ namespace ITest.Services.Data
         {
             var testToPublish = this.mapper.MapTo<Test>(test);
             testToPublish.IsPublished = true;
+            this.saver.SaveChanges();
+
         }
 
         public TestDTO EditTest(TestDTO test)
@@ -95,7 +97,9 @@ namespace ITest.Services.Data
                     answer.IsDeleted = true;
                 }
             }
-            testToDelete.IsDeleted = true;     
+            testToDelete.IsDeleted = true;
+            this.saver.SaveChanges();
+
         }
         public TestDTO GetTestById(string id)
         {

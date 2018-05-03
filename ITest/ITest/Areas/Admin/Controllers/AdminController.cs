@@ -79,6 +79,12 @@ namespace ITest.Areas.Admin.Controllers
             return Content("/Admin/Admin/Index");
         }
 
+        [HttpPost]
+        public IActionResult DeleteTest(string name)
+        {
+            this.testService.DeteleTest(name);
+            return Ok();
+        }
         public IActionResult CreateQuestion()
         {
             //var question = new CreateQuestionViewModel();

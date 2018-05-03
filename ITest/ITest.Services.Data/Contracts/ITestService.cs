@@ -16,6 +16,7 @@ namespace ITest.Services.Data.Contracts
         TestDTO GetRandomTestFromCategory(CategoryDTO category);
         void PublishTestFromDraft(TestDTO test);
         TestDTO EditTest(TestDTO test);
+        void DeteleTest(string name);
         TestDTO GetTestById(string id);
 
         IQueryable<TestDTO> GetAllTests();
