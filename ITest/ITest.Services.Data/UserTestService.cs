@@ -4,6 +4,7 @@ using ITest.Data.Saver;
 using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using ITest.Services.Data.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Text;
 
 namespace ITest.Services.Data
 {
-    public class UserTestService
+    public class UserTestService : IUserTestService
     {
         private readonly IRepository<UserTest> userTestRepository;
         private readonly ITestService testService;
@@ -46,6 +47,24 @@ namespace ITest.Services.Data
             }
         }
 
+        public UserTestDTO GetAssignedTestWithCategory(string category)
+        {
+            var userId = this.userService.GetCurrentLoggedUser();
+
+            var userTest = userTestRepository.All
+                                .Where(x => x.UserId == userId)
+                                .Include(x => x.Test.Category)
+                                .Include(x => x.Test)
+                                .ThenInclude(x => x.Questions)
+                                .ThenInclude(x => x.Answers)
+                                .Where(x => x.Test.Category.Name == category)
+                                .FirstOrDefault();
+
+            var dto = mapper.MapTo<UserTestDTO>(userTest);                                                                
+
+            return dto;
+        }
+
         public void AssignTestToUser(string category)
         {
             var userId = this.userService.GetCurrentLoggedUser();
@@ -53,16 +72,12 @@ namespace ITest.Services.Data
             var categoryDTO = new CategoryDTO() { Name = category };
             
             var test = this.testService.GetRandomTestFromCategory(categoryDTO);
-
-            if (test is null)
-            {
-                throw new ArgumentNullException("No tests in database.");
-            }
+            
 
             var userTestsToAdd = new UserTestDTO()
             {
                 UserId = userId,
-               // TestId = test.id
+                TestId = test.id
             };
 
             this.Publish(userTestsToAdd);

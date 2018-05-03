@@ -27,10 +27,23 @@ namespace ITest.Services.Data
 
         public IQueryable<CategoryDTO> GetAllCategories()
         {
-            var categories = this.mapper.ProjectTo<CategoryDTO>(this.categoriesRepository.All);
+            var categories = this.mapper.ProjectTo<CategoryDTO>(this.categoriesRepository.All.Where(x => x.IsDeleted == false));
             return categories;
         }
 
+        public bool CheckIfCategoryExists(string categoryName)
+        {
+            var category = this.categoriesRepository.All.FirstOrDefault(x => x.Name == categoryName);
+
+            if (category == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         public string GetCategoryId(string categoryName)
         {
             return this.categoriesRepository.All.FirstOrDefault(x => x.Name == categoryName).Id.ToString();

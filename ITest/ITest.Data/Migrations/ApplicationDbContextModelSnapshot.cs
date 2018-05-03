@@ -145,9 +145,11 @@ namespace ITest.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("EndTime");
+                    b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<double>("Score");
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<double?>("Score");
 
                     b.Property<DateTime>("StartTime");
 

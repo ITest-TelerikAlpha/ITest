@@ -10,5 +10,6 @@ namespace ITest.Services.Data.Contracts
     {
         IQueryable<CategoryDTO> GetAllCategories();
         string GetCategoryId(string categoryName);
+        bool CheckIfCategoryExists(string categoryName);
     }
 }
