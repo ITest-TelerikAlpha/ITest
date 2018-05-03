@@ -24,11 +24,9 @@ namespace ITest.Data.Models
 
         public User User { get; set; }
 
-        public double Score { get; set; }
+        public double? Score { get; set; }
 
         public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
 
         public ICollection<AnswersToUserTest> AnswersToUserTests { get; set; }
         public bool IsDeleted { get; set; }
