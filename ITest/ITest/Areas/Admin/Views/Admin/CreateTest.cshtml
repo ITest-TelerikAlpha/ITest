@@ -61,7 +61,7 @@
             $("#new-question-button").click(function () {
                 $.get("/Admin/Admin/CreateQuestion", function (data) {
                     var currentNumberOfQuestions = document.getElementsByClassName("question-container").length + 1;
-
+                 
                     var questionDiv = $("<div/>")
                         .addClass('question');
                     questionDiv.html(data);

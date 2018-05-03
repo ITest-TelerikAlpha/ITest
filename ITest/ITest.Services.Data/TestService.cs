@@ -83,8 +83,19 @@ namespace ITest.Services.Data
 
         public void DeteleTest(string name)
         {
-            
-            
+            var testToDelete = this.testRepository.All.Where(t => t.Name == name)
+                .Include(t => t.Questions)
+                .ThenInclude(q => q.Answers).First();
+
+            foreach (var question in testToDelete.Questions)
+            {
+                question.IsDeleted = true;
+                foreach (var answer in question.Answers)
+                {
+                    answer.IsDeleted = true;
+                }
+            }
+            testToDelete.IsDeleted = true;     
         }
         public TestDTO GetTestById(string id)
         {
