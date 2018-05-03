@@ -1,0 +1,56 @@
+﻿@model ITest.Areas.User.Models.HomeViewModels.CategoryCollectionViewModel
+@{
+    ViewData["Title"] = "Tests";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-sm-8 col-md-10 col-lg-10 col-xl-10">
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        @for (int i = 0; i < Model.Categories.Count; i++)
+                        {
+                            string tabname = "#tab" + i;
+                            if (Model.Categories[i].Name == "Java")
+                            {
+                                <li class="active"><a href=@tabname data-toggle="tab"><b>@Model.Categories[i].Name</b></a></li>
+                            }
+                            else
+                            {
+                                <li><a href=@tabname data-toggle="tab"><b>@Model.Categories[i].Name</b></a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        @for (int i = 0; i < Model.Categories.Count; i++)
+                        {
+                            string colId = "tab" + i;
+                            string className = "tab-pane fade";
+                            if (Model.Categories[i].Name == "Java")
+                            {
+                                className = "tab-pane fade in active";
+                            }
+                            @if (Model.Categories[i].IsTestTaken)
+                            {
+                                <div class="@className" id=@colId>
+                                    <a @Model.Categories[i].Name class="btn btn-primary disabled">Submited</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="@className" id=@colId>
+                                    <a asp-area="User" asp-controller="Home" asp-action="StartTest" asp-route-category="@Model.Categories[i].Name" class="btn btn-primary">Take Test</a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

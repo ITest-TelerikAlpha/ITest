@@ -1,0 +1,18 @@
+﻿@model ITest.Areas.User.Models.TakeTestViewModel
+
+
+<div class="col-md-12">
+    <h1>@Model.Name</h1>
+    <div>
+        <div><p>Category: @Model.Category</p></div>
+        <div><p>timer</p></div>
+    </div>
+    <form action="/" method="post">
+        @foreach (var question in Model.Questions)
+        {
+            @Html.Partial("QuestionPartial", question);
+        }
+    </form>
+
+    <a asp-area="User" asp-controller="Test" asp-action="SubmitTest" class="btn btn-primary">Submit Test</a>
+</div>
