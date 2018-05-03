@@ -50,7 +50,6 @@ namespace ITest.Services.Data
            // testToAdd.CategoryId = testToAdd.Category.Id; 
             this.testRepository.Add(testToAdd);
             this.saver.SaveChanges();
-
         }
 
         public TestDTO GetRandomTestFromCategory(CategoryDTO category)
@@ -82,6 +81,11 @@ namespace ITest.Services.Data
             throw new NotImplementedException();
         }
 
+        public void DeteleTest(string name)
+        {
+            
+            
+        }
         public TestDTO GetTestById(string id)
         {
             var test = this.testRepository
