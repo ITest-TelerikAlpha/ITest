@@ -48,6 +48,7 @@ namespace ITest
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITestService, TestService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserTestService, UserTestService>();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
@@ -118,7 +119,7 @@ namespace ITest
 
                routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+                    template: "{area:exists}/{controller=User}/{action=Index}/{id?}");
 
                routes.MapRoute(
                     name: "default",
