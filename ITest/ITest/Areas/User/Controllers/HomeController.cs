@@ -58,14 +58,14 @@ namespace ITest.Areas.User.Controllers
             
             if (userTestService.CheckIfUserHasAssignedTest(category))
             {
-                return RedirectToAction("Index", "Test", category);
+                return RedirectToAction("Index", "Test", new { category = category });
             }
             else
             {
                 userTestService.AssignTestToUser(category);
             }
 
-            return View();
+            return RedirectToAction("Index", "Test");
         }
     }
 }
