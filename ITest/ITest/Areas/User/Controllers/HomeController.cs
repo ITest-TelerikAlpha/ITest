@@ -65,7 +65,7 @@ namespace ITest.Areas.User.Controllers
                 userTestService.AssignTestToUser(category);
             }
 
-            return RedirectToAction("Index", "Test");
+            return RedirectToAction("Index", "Test", new { category = category });
         }
     }
 }

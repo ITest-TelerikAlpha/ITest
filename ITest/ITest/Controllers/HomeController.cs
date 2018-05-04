@@ -12,6 +12,18 @@ namespace ITest.Controllers
     {
         public IActionResult Index()
         {
+            if (this.User != null &&
+               this.User.Identity != null &&
+               this.User.Identity.IsAuthenticated)
+            {
+                if (this.User.IsInRole("Admin"))
+                {
+                    return this.RedirectToAction("Index", "Admin", new { area = "Admin" });
+                }
+
+                return this.RedirectToAction("Index", "Home", new { area = "User" });
+            }
+            
             return View();
         }
 
