@@ -29,7 +29,7 @@
                 <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
             </div>
         </div>
-        <div id="question-container"></div>
+        <div id="question-container" class="accordion"></div>
         <div class="save-buttons">
             <button type="submit" id="publish" class="btn btn-primary pull-right submit">Publish</button>
             <button type="submit" id="save-draft" class="btn btn-primary pull-right submit">Save As Draft</button>
@@ -42,8 +42,27 @@
 @section Scripts{
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
+        var updateQuestionNumbers = function () {
+            $(".question-count")
+                .each(function (index, questionHeader) {
+                    $(questionHeader)
+                        .find("span")
+                        .eq(0)
+                        .text("Question " + (index + 1));
+                });
+        };
 
+        $.fn.questionsAccordion = function () {
+            var accordion = $(this);
+            $(this).on("click", ".question-count", function () {
+                var questionContent = $(this)
+                    .next(".question-content");
+                questionContent.toggleClass("active");
+            });
+        };
+
+        $(function () {
+            $("#question-container").questionsAccordion();
             $("#question-container").on("click", ".new-answer-button", function () {
                 var btn = $(this);
 
@@ -51,35 +70,39 @@
                     var answerDiv = $("<div/>")
                         .addClass("answer");
                     answerDiv.html(data);
+
                     btn.parents(".question-container")
                         .find(".question")
                         .append(answerDiv);
                 });
             });
-            var counter = 0;
 
             $("#new-question-button").click(function () {
                 $.get("/Admin/Admin/CreateQuestion", function (data) {
                     var currentNumberOfQuestions = document.getElementsByClassName("question-container").length + 1;
-                 
+
                     var questionDiv = $("<div/>")
                         .addClass('question');
-                    questionDiv.html(data);
-                    var questionHeader = questionDiv.find(".question-count");
-                    if (counter !== currentNumberOfQuestions) {
 
-                        counter = counter + 1;
-                    }
-                    questionHeader.text("Question " + counter);
+                    questionDiv.html(data);
+
                     $("#question-container").append(questionDiv);
+
+                    updateQuestionNumbers();
+
+                    $(".question-content")
+                        .removeClass("active");
+
+                    questionDiv.find(".question-content")
+                        .addClass("active");
                 });
             });
         });
-       
+
         $("#publish, #save-draft").on("click", function (ev) {
             ev.preventDefault();
             var questions = [];
-           
+
             $(".form-group.question")
                 .each(function (index, questionContainer) {
                     var question = $(questionContainer)

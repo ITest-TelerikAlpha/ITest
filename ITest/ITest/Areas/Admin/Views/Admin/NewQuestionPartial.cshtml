@@ -3,52 +3,47 @@
 @{
     ViewData["Title"] = "NewQuestionPartial";
 }
-
-<div class="question-container"> 
-    <div >
-        <h2 style="display: inline-block" class="question-count">
-            Question 1
-        </h2>
-        <button style="margin-top:2%" type="button" class="btn btn-default pull-right delete-question-button">
+<div class="question-container">
+    <h2 class="question-count">
+        <span>Question 1</span>
+        <button type="button" class="btn btn-default pull-right delete-question-button">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
-    </div>
+    </h2>
 
-    <div class="form-group question">
-        <div>Description</div>
-        <textarea asp-for="Content" class="form-control question summernote" rows="5" id="question-content"></textarea>
-        @Html.Partial("NewAnswerPartial")
-        @Html.Partial("NewAnswerPartial")
-        @Html.Partial("NewAnswerPartial")
+    <div class="question-content">
+        <div class="form-group question">
+            <div>Description</div>
+            <textarea asp-for="Content" class="form-control question summernote" rows="5" id="question-content"></textarea>
+            @Html.Partial("NewAnswerPartial")
+            @Html.Partial("NewAnswerPartial")
+            @Html.Partial("NewAnswerPartial")
+        </div>
+        <div>
+            <button type="button" id="new-answer-button" class="new-answer-button btn btn-primary pull-right">Add New Answer</button>
+        </div>
     </div>
-    <div>
-        <button type="button" id="new-answer-button" class="new-answer-button btn btn-primary pull-right">Add New Answer</button>
-    </div>
+    <div style="clear:both"></div>
 </div>
-<div style="clear:both"></div>
 
 <script>
     $(function () {
         $("#question-container").on("click", ".delete-question-button", function () {
-            var currentDeleted = $(this).parent().find(".question-count").text();
-            var questionNumber = currentDeleted.split(" ")[1];
+            var currentDeleted = $(this)
+                .parent()
+                .find(".question-count")
+                .text();
 
-            $(this).parent().fadeOut("normal", function () {
-                $(this).parent().remove();
-            });
-            var counter = 0;
-            $(".question-count")
-                .each(function (index, questionHeader) {
-                    
-                    var questionHeader = $(questionHeader);
-                    //    .find(".question-count");
-                    console.log(questionHeader);
-                    //var numberToUpdate = questionHeader.text().split(" ")[1];
-                    counter++;
-                    questionHeader.text("Question " + counter);
+            var questionNumber = currentDeleted.split(" ")[1];
+            $(this)
+                .parents(".question-container")
+                .fadeOut("normal", function () {
+                    $(this).parent().remove();
+                    updateQuestionNumbers();
                 });
+
+            $('.summernote').summernote();
+            //$(".accordion").accordion();
         });
-        $('.summernote').summernote();
-        $(".accordion").accordion();
     });
 </script>
