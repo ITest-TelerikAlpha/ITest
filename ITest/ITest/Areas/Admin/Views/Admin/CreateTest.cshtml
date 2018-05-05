@@ -29,7 +29,7 @@
                 <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
             </div>
         </div>
-        <div id="question-container" class="accordion"></div>
+        <div id="question-container"></div>
         <div class="save-buttons">
             <button type="submit" id="publish" class="btn btn-primary pull-right submit">Publish</button>
             <button type="submit" id="save-draft" class="btn btn-primary pull-right submit">Save As Draft</button>
@@ -75,10 +75,6 @@
                 });
             });
         });
-
-        //$("#question-container").on("click", ".accordion", .accordion({
-        //    collapsible: true
-        //});
        
         $("#publish, #save-draft").on("click", function (ev) {
             ev.preventDefault();

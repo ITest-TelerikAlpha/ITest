@@ -44,9 +44,9 @@ namespace ITest.Services.Data
                 return true;
             }
         }
-        public string GetCategoryId(string categoryName)
+        public Guid GetCategoryId(string categoryName)
         {
-            return this.categoriesRepository.All.FirstOrDefault(x => x.Name == categoryName).Id.ToString();
+            return this.categoriesRepository.All.FirstOrDefault(x => x.Name == categoryName).Id;
         }
      }
 }

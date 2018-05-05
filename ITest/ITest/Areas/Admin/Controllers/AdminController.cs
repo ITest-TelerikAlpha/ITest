@@ -85,16 +85,53 @@ namespace ITest.Areas.Admin.Controllers
             this.testService.DeteleTest(name);
             return Ok();
         }
+
+        [HttpPost]
+        public IActionResult PublishTestFromDraft(string name)
+        {
+            this.testService.PublishTestFromDraft(name);
+            return Ok();
+        }
         public IActionResult CreateQuestion()
         {
-            //var question = new CreateQuestionViewModel();
-
             return PartialView("NewQuestionPartial");
         }
 
         public IActionResult AddNewAnswer()
         {
             return PartialView("NewAnswerPartial");
+        }
+
+        [HttpGet]
+        public IActionResult EditTest([FromQuery(Name ="name")] string name)
+        {
+            var testDTO = this.testService.GetTestByName(name);
+            var testViewModel = this.mapper.MapTo<CreateTestViewModel>(testDTO);
+            var categories = this.categoryService.GetAllCategories().ToList();
+            foreach (var category in categories)
+            {
+                testViewModel.Categories.Add
+                    (new CategoryViewModel()
+                    {
+                        Category = category.Name
+                    }
+                    );
+            }
+
+            return View(testViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SaveEditedTest(CreateTestViewModel testViewModel)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
+
+                this.testService.EditTest(testDTO);
+            }
+
+            return Content("/Admin/Admin/Index");
         }
     }
 }

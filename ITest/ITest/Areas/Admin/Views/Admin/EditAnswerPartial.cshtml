@@ -1,0 +1,15 @@
+﻿@model ITest.Areas.Admin.Models.CreateAnswerViewModel
+
+@{
+    ViewData["Title"] = "EditAnswerPartial";
+}
+
+<div class="answer-container">
+    <div class="checkbox">
+        <label asp-for="IsCorrect" class="pull-right"><input class="answer-is-correct" type="checkbox">Correct Answer</label>
+    </div>
+    <div class="answer-count">Answer</div>
+    <textarea asp-for="Content" class="form-control answer summernote" rows="5"></textarea>
+</div>
+
+

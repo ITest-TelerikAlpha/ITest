@@ -11,6 +11,8 @@ namespace ITest.Areas.Admin.Models
         {
             this.Answers = new HashSet<CreateAnswerViewModel>();
         }
+        public Guid Id { get; set; }
+
         public string Content { get; set; }
         public ICollection<CreateAnswerViewModel> Answers { get; set; }
     }

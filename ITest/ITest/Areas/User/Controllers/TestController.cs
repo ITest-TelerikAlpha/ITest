@@ -24,7 +24,7 @@ namespace ITest.Areas.User.Controllers
             this.categoryService = categoryService;
             this.mappingProvider = mappingProvider;
         }
-        public IActionResult Index(string category)
+        public IActionResult Index(string category="Java")
         {
             if (this.categoryService.CheckIfCategoryExists(category))
             {

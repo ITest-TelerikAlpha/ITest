@@ -4,8 +4,8 @@
     ViewData["Title"] = "NewQuestionPartial";
 }
 
-<div class="question-container">
-    <div>
+<div class="question-container"> 
+    <div >
         <h2 style="display: inline-block" class="question-count">
             Question 1
         </h2>
@@ -36,20 +36,19 @@
             $(this).parent().fadeOut("normal", function () {
                 $(this).parent().remove();
             });
-
-            $(".question-container")
+            var counter = 0;
+            $(".question-count")
                 .each(function (index, questionHeader) {
-                    var questionHeader = $(questionHeader)
-                        .find(".question-count");
-                    var numberToUpdate = questionHeader.text().split(" ")[1];
-                    if (numberToUpdate > questionNumber) {
-
-                        numberToUpdate = numberToUpdate - 1;
-                    }
-                    questionHeader.text("Question " + numberToUpdate);
-
+                    
+                    var questionHeader = $(questionHeader);
+                    //    .find(".question-count");
+                    console.log(questionHeader);
+                    //var numberToUpdate = questionHeader.text().split(" ")[1];
+                    counter++;
+                    questionHeader.text("Question " + counter);
                 });
         });
         $('.summernote').summernote();
+        $(".accordion").accordion();
     });
 </script>

@@ -1,87 +1,99 @@
 ﻿@model ITest.Areas.Admin.Models.AllTestsViewModel
-    @{
-        ViewData["Title"] = "DashBoard";
-    }
+@{
+    ViewData["Title"] = "DashBoard";
+}
 
-    <h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Title"]</h2>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-6 col-sm-10 col-md-12 col-lg-12 col-xl-12">
-                <div class="panel with-nav-tabs panel-default">
-                    <div class="panel-heading">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab1default" data-toggle="tab"><b>Your Test List</b></a></li>
-                            <li><a href="#tab2default" data-toggle="tab"><b>Test Results</b></a></li>
-                            <a asp-area="Admin" asp-controller="Admin" asp-action="CreateTest" class="btn btn-primary pull-right">New Test</a>
-                        </ul>
-                    </div>
-                    <div class="panel-body">
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active" id="tab1default">
-                                <table class="table table-striped custab" id="test-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Test Name</th>
-                                            <th>Category</th>
-                                            <th>Status</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    @{
-                                        if (Model.AllTests.Any())
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-sm-10 col-md-12 col-lg-12 col-xl-12">
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1default" data-toggle="tab"><b>Your Test List</b></a></li>
+                        <li><a href="#tab2default" data-toggle="tab"><b>Test Results</b></a></li>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="CreateTest" class="btn btn-primary pull-right">New Test</a>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default">
+                            <table class="table table-striped custab" id="test-table">
+                                <thead>
+                                    <tr>
+                                        <th>Test Name</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                @{
+                                    if (Model.AllTests.Any())
+                                    {
+                                        foreach (var test in Model.AllTests)
                                         {
-                                            foreach (var test in Model.AllTests)
-                                            {
-                                                <tr class="test-row">
-                                                    <td class="test-name">@test.Name</td>
-                                                    <td>@test.Category</td>
-                                                    @{
-                                                        if (test.IsPublished)
-                                                        {
-                                                            <td>Publlished</td>
-                                                            <td class="text-center">
-                                                                <a class="btn btn-primary disabled" href="#">Publish</a>
-                                                                <a class="btn btn-primary disabled" href="#">Edit</a>
-                                                                <a class="btn btn-primary">Disable</a>
-                                                            </td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td>Draft</td>
-                                                            <td class="text-center">
-                                                                <a class="btn btn-primary" href="#"> Publish</a>
-                                                                <a class="btn btn-primary" href="#">Edit</a>
-                                                                <a href="#" class="btn btn-primary delete-test-button">Delete</a>
-                                                            </td>
-                                                        }
+                                            <tr class="test-row">
+                                                <td class="test-name">@test.Name</td>
+                                                <td>@test.Category</td>
+                                                @{
+                                                    if (test.IsPublished)
+                                                    {
+                                                        <td class="status">Published</td>
+                                                        <td class="text-center">
+                                                            <a class="btn btn-primary disabled" href="#">Publish</a>
+                                                            <a class="btn btn-primary disabled" href="#">Edit</a>
+                                                            <a class="btn btn-primary">Disable</a>
+                                                        </td>
                                                     }
-                                                </tr>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td>
-                                                    There are no created tests.
-                                                </td>
+                                                    else
+                                                    {
+                                                        <td class="status">Draft</td>
+                                                        <td class="text-center">
+                                                            <a class="btn btn-primary publish-test-button" href="#"> Publish</a>
+                                                            <a class="btn btn-primary edit-test-button" href=@("/admin/admin/edittest?name=" + Uri.EscapeUriString(test.Name))>Edit</a>
+                                                            <a href="#" class="btn btn-primary delete-test-button">Delete</a>
+                                                        </td>
+                                                    }
+                                                }
                                             </tr>
                                         }
                                     }
-                                            
-                                </table>
-                            </div>
-                            <div class="tab-pane fade" id="tab2default">Default 2</div>
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                There are no created tests.
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </table>
                         </div>
+                        <div class="tab-pane fade" id="tab2default">Default 2</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @section Scripts{
+</div>
+@section Scripts{
     <script>
         $(function () {
-            $("#test-table").DataTable();            
+            $("#test-table").DataTable();
+
+            //$(".test-row").on("click", ".edit-test-button", function () {
+            //    var btn = $(this);
+            //    var testName = btn.parent().parent().find(".test-name").text();
+            //    console.log(testName);
+            //    var data = {
+            //        name: testName
+            //    };
+
+            //    $.post("/Admin/Admin/EditTest", data);
+            //});
+
             $(".test-row").on("click", ".delete-test-button", function () {
                 var btn = $(this);
                 var testName = btn.parent().parent().find(".test-name").text();
@@ -89,8 +101,22 @@
                     name: testName
                 };
                 $.post("/Admin/Admin/DeleteTest", data);
-                btn.parent().parent().remove(); 
-            });       
+                btn.parent().parent().remove();
+            });
+
+            $(".test-row").on("click", ".publish-test-button", function () {
+                var btn = $(this);
+                var testName = btn.parent().parent().find(".test-name").text();
+                var data = {
+                    name: testName
+                };
+                $.post("/Admin/Admin/PublishTestFromDraft", data);
+                btn.parent().parent().find(".status").text("Published");
+                btn.addClass("disabled");
+                var editButton = btn.parent().find(".edit-test-button");
+                var deleteButton = btn.parent().find(".delete-test-button").text("Disable");
+                editButton.addClass("disabled");
+            });
         });
     </script>
-    }
+}

@@ -1,0 +1,40 @@
+﻿@model ITest.Areas.Admin.Models.CreateTestViewModel
+@{
+    ViewData["Title"] = "EditTest";
+}
+
+<h1>Edit Test</h1>
+<form method="post" id="form-test">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Name">Test name</label>
+            <input type="text" class="form-control" id="inputName" value="@Model.Name" />
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="RequestedTime">Requested Тime</label>
+            <input type="text" class="form-control" id="inputTime" value=@Model.RequestedTime>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="CategoryName">Category</label>
+            <select id="inputCategory" class="form-control">
+                <option selected>Choose...</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option>@category.Category</option>
+                }
+            </select>
+        </div>
+        <div id="question-container">
+            @foreach (var question in Model.Questions)
+            {
+                <div class="question">@Html.Partial("EditQuestionPartial", question)</div>
+            }
+        </div>
+        <div class="save-buttons">
+            <button type="submit" id="publish" class="btn btn-primary pull-right submit">Publish</button>
+            <button type="submit" id="save-draft" class="btn btn-primary pull-right submit">Save As Draft</button>
+        </div>
+    </div>
+    <input type="hidden" name="Id" value=@Model.Id>
+</form>
+

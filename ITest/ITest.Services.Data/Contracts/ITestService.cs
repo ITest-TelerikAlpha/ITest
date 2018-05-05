@@ -14,11 +14,11 @@ namespace ITest.Services.Data.Contracts
     {
         void CreateTest(TestDTO test);
         TestDTO GetRandomTestFromCategory(CategoryDTO category);
-        void PublishTestFromDraft(TestDTO test);
-        TestDTO EditTest(TestDTO test);
+        void PublishTestFromDraft(string name);
+        void EditTest(TestDTO test);
         void DeteleTest(string name);
         TestDTO GetTestById(string id);
-
+        TestDTO GetTestByName(string name);
         IQueryable<TestDTO> GetAllTests();
     }
 }

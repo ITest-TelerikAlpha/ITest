@@ -14,6 +14,7 @@ namespace ITest.Areas.Admin.Models
             this.Questions = new HashSet<CreateQuestionViewModel>();
         }
 
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string CategoryName { get; set; }
         public int RequestedTime { get; set; }
