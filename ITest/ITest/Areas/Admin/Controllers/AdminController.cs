@@ -20,13 +20,19 @@ namespace ITest.Areas.Admin.Controllers
         private readonly IUserService userservice;
         private readonly ICategoryService categoryService;
         private readonly IMappingProvider mapper;
+        private readonly IUserTestService userTestService;
 
-        public AdminController(ITestService testService, IUserService userservice, ICategoryService categoryService, IMappingProvider mapper)
+        public AdminController(ITestService testService, 
+            IUserService userservice,
+            ICategoryService categoryService,
+            IMappingProvider mapper, 
+            IUserTestService userTestService)
         {
             this.testService = testService;
             this.userservice = userservice;
             this.categoryService = categoryService;
             this.mapper = mapper;
+            this.userTestService = userTestService;
         }
 
         public IActionResult Index()
@@ -130,6 +136,28 @@ namespace ITest.Areas.Admin.Controllers
             
 
             return Content("/Admin/Admin/Index");
+        }
+
+        [HttpGet]
+        public IActionResult TestResults()
+        {
+            var testResultsViewModel = new AllTestsResultsViewModel();
+            var tests = this.userTestService.GetAllTestScoresWithUsers().ToList();
+
+            foreach (var test in tests)
+            {
+                testResultsViewModel.AllTestsResults.Add
+                (new TestResultViewModel()
+                {
+                    UserEmail = this.userservice.GetUserEmailById(test.UserId),
+                    TestName = this.testService.GetTestById(test.TestId.ToString()).Name,
+                    Score = test.Score,
+                    CategoryName = test.Test.CategoryName,
+                    RequestedTime = test.Test.RequestedTime
+                });
+            }
+
+            return View("TestResultsPartial", testResultsViewModel);
         }
     }
 }

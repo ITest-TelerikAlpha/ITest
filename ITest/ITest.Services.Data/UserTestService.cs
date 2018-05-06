@@ -40,7 +40,7 @@ namespace ITest.Services.Data
             if (test is null)
             {
                 return false;
-            }    
+            }
             else
             {
                 return true;
@@ -60,7 +60,7 @@ namespace ITest.Services.Data
                                 .Where(x => x.Test.Category.Name == category)
                                 .FirstOrDefault();
 
-            var dto = mapper.MapTo<UserTestDTO>(userTest);                                                                
+            var dto = mapper.MapTo<UserTestDTO>(userTest);
 
             return dto;
         }
@@ -70,14 +70,14 @@ namespace ITest.Services.Data
             var userId = this.userService.GetCurrentLoggedUser();
 
             var categoryDTO = new CategoryDTO() { Name = category };
-            
+
             var test = this.testService.GetRandomTestFromCategory(categoryDTO);
 
 
             var userTestsToAdd = new UserTestDTO()
             {
                 UserId = userId,
-                TestId = test.Id.ToString()
+                TestId = test.Id
             };
 
             this.Publish(userTestsToAdd);
@@ -88,6 +88,11 @@ namespace ITest.Services.Data
             var model = this.mapper.MapTo<UserTest>(dto);
             this.userTestRepository.Add(model);
             this.saver.SaveChanges();
+        }
+
+        public IQueryable<UserTestDTO> GetAllTestScoresWithUsers()
+        {
+            return this.mapper.ProjectTo<UserTestDTO>(this.userTestRepository.All);
         }
     }
 }

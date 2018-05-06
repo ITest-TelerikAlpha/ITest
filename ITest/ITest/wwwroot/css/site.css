@@ -93,3 +93,8 @@
     background: #fff;
     color: black !important;
 }
+
+
+#tab2default #results-table_wrapper {
+    width: 94%;
+}

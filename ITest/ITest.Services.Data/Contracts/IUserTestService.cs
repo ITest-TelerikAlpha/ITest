@@ -15,5 +15,7 @@ namespace ITest.Services.Data.Contracts
         void Publish(UserTestDTO dto);
 
         UserTestDTO GetAssignedTestWithCategory(string category);
+
+       IQueryable<UserTestDTO> GetAllTestScoresWithUsers();
     }
 }

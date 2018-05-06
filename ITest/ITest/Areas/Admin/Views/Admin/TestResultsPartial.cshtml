@@ -1,0 +1,35 @@
+﻿@model ITest.Areas.Admin.Models.AdminViewModels.AllTestsResultsViewModel
+
+@{
+    ViewData["Title"] = "TestResultsPartial";
+}
+
+<table class="table table-striped custab" id="results-table">
+    <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>User Email</th>
+            <th>Category</th>
+            <th>Reuqested Time</th>
+            <th>Execution Time</th>
+            <th>Results</th>
+        </tr>
+    </thead>
+    @{
+        if (Model.AllTestsResults.Any())
+        {
+            foreach (var test in Model.AllTestsResults)
+            {
+                <tr class="test-row">
+                    <td>@test.TestName</td>
+                    <td>@test.UserEmail</td>
+                    <td>@test.CategoryName</td>
+                    <td>@test.RequestedTime</td>
+                    <td>@test.Score</td>
+                    <td>1</td>
+                </tr>
+            }
+        }
+    }
+
+</table>

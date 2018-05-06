@@ -12,7 +12,7 @@
                 <div class="panel-heading">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab1default" data-toggle="tab"><b>Your Test List</b></a></li>
-                        <li><a href="#tab2default" data-toggle="tab"><b>Test Results</b></a></li>
+                        <li><a id="test-results-tab" href="#tab2default" data-toggle="tab"><b>Test Results</b></a></li>
                         <a asp-area="Admin" asp-controller="Admin" asp-action="CreateTest" class="btn btn-primary pull-right">New Test</a>
                     </ul>
                 </div>
@@ -51,7 +51,7 @@
                                                         <td class="status">Draft</td>
                                                         <td class="text-center">
                                                             <a class="btn btn-primary publish-test-button" href="#"> Publish</a>
-                                                            <a class="btn btn-primary edit-test-button" href=@("/admin/admin/edittest?name=" + Uri.EscapeUriString(test.Name))>Edit</a>
+                                                            <a class="btn btn-primary edit-test-button" href=@("/admin/admin/edittest?name =" + Uri.EscapeUriString(test.Name))>Edit</a>
                                                             <a href="#" class="btn btn-primary delete-test-button">Delete</a>
                                                         </td>
                                                     }
@@ -68,10 +68,11 @@
                                         </tr>
                                     }
                                 }
-
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="tab2default">Default 2</div>
+                        <div class="tab-pane fade" id="tab2default">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,17 +83,17 @@
     <script>
         $(function () {
             $("#test-table").DataTable();
+            (function ($) {
+                $("#test-results-tab").on("click", function () {
+                    $.get("/Admin/Admin/TestResults", function (data) {
+                        $("#tab2default")
+                            .html(data);
 
-            //$(".test-row").on("click", ".edit-test-button", function () {
-            //    var btn = $(this);
-            //    var testName = btn.parent().parent().find(".test-name").text();
-            //    console.log(testName);
-            //    var data = {
-            //        name: testName
-            //    };
-
-            //    $.post("/Admin/Admin/EditTest", data);
-            //});
+                        $("#results-table")
+                            .DataTable();
+                    });
+                })
+            })($);
 
             $(".test-row").on("click", ".delete-test-button", function () {
                 var btn = $(this);

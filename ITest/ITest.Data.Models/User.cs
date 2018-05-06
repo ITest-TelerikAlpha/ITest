@@ -16,7 +16,7 @@ namespace ITest.Models
             this.UserTest = new HashSet<UserTest>();
             this.CreatedTests = new HashSet<Test>();
         }
-        
+
         public ICollection<Test> CreatedTests { get; set; }
         public ICollection<UserTest> UserTest { get; set; }
         public bool IsDeleted { get; set; }

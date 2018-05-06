@@ -8,5 +8,6 @@ namespace ITest.Services.Data.Contracts
     public interface IUserService
     {
         string GetCurrentLoggedUser();
+        string GetUserEmailById(string userId);
     }
 }
