@@ -124,12 +124,10 @@ namespace ITest.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult SaveEditedTest(CreateTestViewModel testViewModel)
         {
-            if (this.ModelState.IsValid)
-            {
                 var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
 
                 this.testService.EditTest(testDTO);
-            }
+            
 
             return Content("/Admin/Admin/Index");
         }

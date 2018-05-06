@@ -72,12 +72,12 @@ namespace ITest.Services.Data
             var categoryDTO = new CategoryDTO() { Name = category };
             
             var test = this.testService.GetRandomTestFromCategory(categoryDTO);
-            
+
 
             var userTestsToAdd = new UserTestDTO()
             {
                 UserId = userId,
-                TestId = test.Id
+                TestId = test.Id.ToString()
             };
 
             this.Publish(userTestsToAdd);

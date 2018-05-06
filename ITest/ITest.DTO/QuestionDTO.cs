@@ -11,6 +11,7 @@ namespace ITest.DTO
         {
             this.Answers = new HashSet<AnswerDTO>();
         }
+        public Guid Id { get; set; }
 
         public string Content { get; set; }
         public TestDTO Test { get; set; }

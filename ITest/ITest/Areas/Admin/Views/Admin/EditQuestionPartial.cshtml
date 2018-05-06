@@ -3,22 +3,27 @@
     ViewData["Title"] = "EditQuestionPartial";
 }
 
-<div class="question-container accordion">
-    <div>
-        <h2 style="display: inline-block" class="question-count">
-            Question 1
-        </h2>
-    </div>
+<div class="question-container">
+    <h2 class="question-count">
+        <span class="question-title"></span>
+        <button type="button" class="btn btn-default pull-right delete-question-button">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+    </h2>
 
-    <div class="form-group question">
-        <div>Description</div>
-        <textarea asp-for="Content" class="form-control question summernote" rows="5" id="question-content"></textarea>
-       @foreach (var answer in Model.Answers)
-       {
-           @Html.Partial("EditAnswerPartial", answer);
-       }
+    <div class="question-content">
+        <div class="form-group question">
+            <div>Description</div>
+            <textarea asp-for="Content" class="form-control question summernote" rows="5" id="question-content"></textarea>
+            @foreach (var answer in Model.Answers)
+            {
+                @Html.Partial("EditAnswerPartial", answer);
+            }
+            <input class="question-id" type="hidden" name="Id" value=@Model.Id>
+        </div>
+        <div>
+            <button type="button" id="new-answer-button" class="new-answer-button btn btn-primary pull-right">Add New Answer</button>
+        </div>
     </div>
+    <div style="clear:both"></div>
 </div>
-<div style="clear:both"></div>
-
-

@@ -8,7 +8,7 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label asp-for="Name">Test name</label>
-            <input type="text" class="form-control" id="inputName" value="@Model.Name" />
+            <input type="text" class="form-control" id="inputName" value="@Model.Name">
         </div>
         <div class="form-group col-md-2">
             <label asp-for="RequestedTime">Requested Тime</label>
@@ -17,12 +17,22 @@
         <div class="form-group col-md-4">
             <label asp-for="CategoryName">Category</label>
             <select id="inputCategory" class="form-control">
-                <option selected>Choose...</option>
                 @foreach (var category in Model.Categories)
                 {
-                    <option>@category.Category</option>
+                    if (category.Category == Model.CategoryName)
+                    {
+                        <option selected value="@Model.CategoryName">@Model.CategoryName</option>
+                    }
+                    else
+                    {
+                        <option value="@category.Category">@category.Category</option>
+                    }
                 }
             </select>
+
+            <div>
+                <button type="button" id="new-question-button" class="btn btn-primary pull-right">Add Question</button>
+            </div>
         </div>
         <div id="question-container">
             @foreach (var question in Model.Questions)
@@ -35,6 +45,153 @@
             <button type="submit" id="save-draft" class="btn btn-primary pull-right submit">Save As Draft</button>
         </div>
     </div>
-    <input type="hidden" name="Id" value=@Model.Id>
+    <input type="hidden" id="test-id" name="Id" value=@Model.Id>
 </form>
+<script>
 
+    var updateQuestionNumbers = function () {
+        console.log($(".question-title").length)
+        $(".question-count")
+            .each(function (index, questionHeader) {
+                $(questionHeader)
+                    .find(".question-title")
+                    .eq(0)
+                    .text("Question " + (index + 1));
+            });
+    };
+
+    window.onload = function () {
+        $.fn.questionsAccordion = function () {
+            var accordion = $(this);
+            $(this).on("click", ".question-count .question-title", function () {
+                var questionContent = $(this)
+                    .parent()
+                    .next(".question-content");
+
+                questionContent.toggleClass("active");
+            });
+        };
+
+        $(function () {
+            updateQuestionNumbers();
+            $(".summernote").summernote();
+
+            $("#question-container").on("click", ".answer-container .delete-answer-button", function () {
+                $(this).parent().fadeOut("normal", function () {
+                    $(this).parent().remove();
+                });
+            });
+
+            $("#question-container").on("click", ".delete-question-button", function () {
+                var currentDeleted = $(this)
+                    .parents(".question-count")
+                    .text();
+
+                var questionNumber = currentDeleted.split(" ")[1];
+                var questionContianer = $(this)
+                    .parents(".question-container");
+                console.log(questionContianer.length);
+                questionContianer
+                    .fadeOut("normal", function () {
+                        questionContianer
+                            .remove();
+                        updateQuestionNumbers();
+                    });
+
+                //updateQuestionNumbers();
+                $('.summernote').summernote();
+            });
+
+            $("#question-container").questionsAccordion();
+            $("#question-container").on("click", ".new-answer-button", function () {
+                var btn = $(this);
+
+                $.get("/Admin/Admin/AddNewAnswer", function (data) {
+                    var answerDiv = $("<div/>")
+                        .addClass("answer");
+                    answerDiv.html(data);
+
+                    btn.parents(".question-container")
+                        .find(".question")
+                        .append(answerDiv);
+                });
+            });
+
+            $("#new-question-button").click(function () {
+                $.get("/Admin/Admin/CreateQuestion", function (data) {
+                    var currentNumberOfQuestions = document.getElementsByClassName("question-container").length + 1;
+
+                    var questionDiv = $("<div/>")
+                        .addClass('question');
+
+                    questionDiv.html(data);
+
+                    $("#question-container").append(questionDiv);
+
+                    updateQuestionNumbers();
+
+                    $(".question-content")
+                        .removeClass("active");
+
+                    questionDiv.find(".question-content")
+                        .addClass("active");
+
+                });
+            });
+        });
+
+        $("#publish, #save-draft").on("click", function (ev) {
+            ev.preventDefault();
+            var questions = [];
+
+            $(".form-group.question")
+                .each(function (index, questionContainer) {
+                    var question = $(questionContainer)
+                        .find(".form-control.question")
+                    var questionId = $(questionContainer)
+                        .find(".question-id")
+                        .val();
+
+                    var answers = []
+                    $(questionContainer)
+                        .find(".answer-container")
+                        .each(function (index, answerContainer) {
+                            var answer = $(answerContainer).find(".answer").val();
+                            var isCorrect = $(answerContainer).find(".answer-is-correct:checked").length > 0;
+                            var answerId = $(answerContainer).find(".answer-id").val();
+                            answers.push({
+                                Content: answer,
+                                IsCorrect: isCorrect,
+                                Id: answerId
+                            });
+                        });
+
+                    questions.push({
+                        Content: question.val(),
+                        Answers: answers,
+                        Id: questionId
+                    });
+
+                });
+            console.log(questions);
+
+            var category = $("#inputCategory").find(":selected").text();
+
+            var data = {
+                Name: $("#inputName").val(),
+                CategoryName: category,
+                RequestedTime: $("#inputTime").val(),
+                IsPublished: ev.target.id === 'publish',
+                Questions: questions,
+                Id: $("#test-id").val()
+            };
+
+            $.post("/Admin/Admin/SaveEditedTest", data, function (response) {
+                window.location = "/Admin/Admin/Index";
+            });
+
+            return false;
+        });
+    }
+
+</script>

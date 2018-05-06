@@ -96,19 +96,64 @@ namespace ITest.Services.Data
         }
         public void EditTest(TestDTO test)
         {
-            var testToEdit = this.mapper.MapTo<Test>(test);
+            var newTestToEdit = this.mapper.MapTo<Test>(test);
+            var oldTestToEdit = this.testRepository.All
+                .Include(t => t.Questions)
+                .FirstOrDefault(t => t.Id == newTestToEdit.Id);
 
-            this.testRepository.Update(testToEdit);
-            foreach (var question in testToEdit.Questions)
+            newTestToEdit.CategoryId = this.categoryService.GetCategoryId(test.CategoryName);
+
+            var questions = oldTestToEdit.Questions.ToList();
+
+            foreach (var question in questions)
             {
-                this.questionsRepository.Update(question);
-                foreach (var answer in question.Answers)
+                if (!newTestToEdit.Questions.Any(q => q.Id == question.Id))
                 {
-                    this.answersRepository.Update(answer);
+                    oldTestToEdit.Questions.Remove(question);
+                    this.questionsRepository.Delete(question);
                 }
             }
 
-            this.saver.SaveChanges();         
+            foreach (var question in newTestToEdit.Questions)
+            {
+                if (!oldTestToEdit.Questions.Any(q => q.Id == question.Id))
+                {
+                    oldTestToEdit.Questions.Add(question);
+                }
+            }
+
+            foreach (var question in newTestToEdit.Questions)
+            {
+                var oldQuestion = this.questionsRepository.All
+                    .Include(q => q.Answers)
+                    .FirstOrDefault(q => q.Id == question.Id);
+
+                foreach (var answer in oldQuestion.Answers.ToList())
+                {
+                    if (!question.Answers.Any(a => a.Id == answer.Id))
+                    {
+                        this.answersRepository.Delete(answer);
+                        oldQuestion.Answers.Remove(answer);
+                        continue;
+                    }
+                }
+
+                foreach (var answer in question.Answers)
+                {
+                    var dbAnswer = oldQuestion.Answers.FirstOrDefault(a => a.Id == answer.Id);
+                    if (dbAnswer != null)
+                    {
+                        dbAnswer.IsCorrect = answer.IsCorrect;
+                        dbAnswer.Content = answer.Content;
+                    }
+                    else
+                    {
+                        oldQuestion.Answers.Add(answer);
+                    }
+                }
+            }
+
+            this.saver.SaveChanges();
         }
 
         public void DeteleTest(string name)
@@ -119,12 +164,20 @@ namespace ITest.Services.Data
 
             foreach (var question in testToDelete.Questions)
             {
-                question.IsDeleted = true;
+                this.questionsRepository.Delete(question);
                 foreach (var answer in question.Answers)
                 {
-                    answer.IsDeleted = true;
+                    answersRepository.Delete(answer);
                 }
             }
+            //foreach (var question in testToDelete.Questions)
+            //{
+            //    question.IsDeleted = true;
+            //    foreach (var answer in question.Answers)
+            //    {
+            //        answer.IsDeleted = true;
+            //    }
+            //}
             //this.testRepository.Delete(testToDelete);
             this.saver.SaveChanges();
         }

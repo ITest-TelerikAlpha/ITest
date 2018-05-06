@@ -6,10 +6,22 @@
 
 <div class="answer-container">
     <div class="checkbox">
-        <label asp-for="IsCorrect" class="pull-right"><input class="answer-is-correct" type="checkbox">Correct Answer</label>
+        <button type="button" class="btn btn-default pull-right delete-answer-button">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        <label asp-for="IsCorrect" class="pull-right">
+            @if (Model.IsCorrect)
+            {
+                <input class="answer-is-correct" type="checkbox" checked>
+            }
+            else
+            {
+                <input class="answer-is-correct" type="checkbox">
+            }
+            Correct Answer
+        </label>
     </div>
     <div class="answer-count">Answer</div>
-    <textarea asp-for="Content" class="form-control answer summernote" rows="5"></textarea>
+    <textarea asp-for="Content" class="form-control answer summernote" rows="5" value="@Model.Content"></textarea>
+    <input class="answer-id" type="hidden" name="Id" value=@Model.Id>
 </div>
-
-
