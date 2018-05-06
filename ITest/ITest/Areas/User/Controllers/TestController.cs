@@ -27,7 +27,7 @@ namespace ITest.Areas.User.Controllers
             this.mappingProvider = mappingProvider;
             this.link = new List<string>();
         }
-        public IActionResult Index(string category="Java")
+        public IActionResult Index(string category)
         {
             //check if user has active test
                 

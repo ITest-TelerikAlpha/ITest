@@ -7,6 +7,10 @@ namespace ITest.Areas.User.Models.TestViewModels
 {
     public class UserAnswersViewModel
     {
+        public UserAnswersViewModel()
+        {
+            this.UserAnswers = new HashSet<UserAnswerViewModel>();
+        }
         public ICollection<UserAnswerViewModel> UserAnswers { get; set; }
     }
 }
