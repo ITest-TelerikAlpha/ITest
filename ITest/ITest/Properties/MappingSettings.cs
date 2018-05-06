@@ -31,7 +31,10 @@ namespace ITest.Properties
                 .ForMember(a => a.IsCorrect, o => o.MapFrom(a => a.IsCorrect))
                 .ReverseMap();
 
-            this.CreateMap<UserTestDTO, UserTest>(MemberList.Source).MaxDepth(3);
+            this.CreateMap<UserTestDTO, UserTest>(MemberList.Source)
+                .ForMember(a => a.Score, o => o.MapFrom(a => a.Score))
+                .MaxDepth(3);
+            
 
 
 

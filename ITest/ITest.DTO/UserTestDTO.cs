@@ -8,6 +8,7 @@ namespace ITest.DTO
 {
     public class UserTestDTO
     {
+        public string Id { get; set; }
         public string UserId { get; set; }
 
         public Guid TestId { get; set; }

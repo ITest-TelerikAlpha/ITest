@@ -26,11 +26,12 @@ namespace ITest.Areas.User.Controllers
 
         public IActionResult Index()
         {
+            //Check if there is an active test
+
             var model = new CategoryCollectionViewModel();
             var collection = categoryService.GetAllCategories();
             model.Categories = mappingProvider.ProjectTo<TestCategoryViewModel>(collection).ToList();
 
-            //Check if there is an active test
 
             foreach (var category in model.Categories)
             {
@@ -56,11 +57,7 @@ namespace ITest.Areas.User.Controllers
             }   
             
             
-            if (userTestService.CheckIfUserHasAssignedTest(category))
-            {
-                return RedirectToAction("Index", "Test", new { category = category });
-            }
-            else
+            if (!userTestService.CheckIfUserHasAssignedTest(category))
             {
                 userTestService.AssignTestToUser(category);
             }

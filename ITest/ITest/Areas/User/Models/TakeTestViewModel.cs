@@ -10,6 +10,7 @@ namespace ITest.Areas.User.Models
     {
         public string Name { get; set; }
         public string Category { get; set; }
+        public int RequestedTime { get; set; }
         public IEnumerable<QuestionViewModel> Questions { get; set; }
     }
 }

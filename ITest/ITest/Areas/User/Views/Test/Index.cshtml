@@ -2,17 +2,68 @@
 
 
 <div class="col-md-12">
-    <h1>@Model.Name</h1>
-    <div>
-        <div><p>Category: @Model.Category</p></div>
-        <div><p>timer</p></div>
-    </div>
-    <form action="/" method="post">
+
+    <form method="post">
+        <h1>@Model.Name</h1>
+        <div>
+            <div class="test-category"><p>Category: @Model.Category</p></div>
+            <div id="countdown">
+                <div class="values value-size"></div>
+            </div>
+        </div>
         @foreach (var question in Model.Questions)
         {
             @Html.Partial("QuestionPartial", question);
         }
+        <button type="submit" id="publish" class="btn btn-primary pull-right submit" disabled>Submit</button>
     </form>
 
-    <a asp-area="User" asp-controller="Test" asp-action="SubmitTest" class="btn btn-primary">Submit Test</a>
 </div>
+
+
+
+@section Scripts{
+    <script src="~/js/Timer.js"></script>
+    <script>
+        $(function () {
+            $('.radio-button').click(function () {
+                console.log(this);
+                if ($("input[type='radio']").filter(":checked").length === $(".col-md-12").length - 1) {
+                    $('#publish').attr('disabled', false);
+                }
+            });
+        });
+        
+
+        $(function () {
+            var timer = new Timer();
+            timer.start({ countdown: true, startValues: { seconds: @Model.RequestedTime} });
+            $('#countdown .values').html(timer.getTimeValues().toString());
+            timer.addEventListener('secondsUpdated', function (e) {
+                $('#countdown .values').html(timer.getTimeValues().toString());
+            });
+            timer.addEventListener('targetAchieved', function (e) {
+                window.alert("End");
+            });
+        });
+
+        $('#publish').click(function () {
+            event.preventDefault();
+            var answers = []
+
+            var radios = $("input[type='radio']").filter(":checked").each(function () {
+                answers.push({
+                    QuestionId = $(this).attr("name"),
+                    AnswerId = $(this).attr("value")
+                });
+                console.log($(this).attr("name"));
+                console.log($(this).attr("value"));
+            });
+
+
+            $.post("User/Test/SubmitTest", answers, function (response) { 
+                window.location = response;
+            });
+        })
+    </script>
+}
