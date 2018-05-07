@@ -5,6 +5,7 @@
 
 <h1>Edit Test</h1>
 <form method="post" id="form-test">
+    @Html.AntiForgeryToken()
     <div class="form-row">
         <div class="form-group col-md-6">
             <label asp-for="Name">Test name</label>
@@ -148,6 +149,7 @@
                 .each(function (index, questionContainer) {
                     var question = $(questionContainer)
                         .find(".form-control.question")
+
                     var questionId = $(questionContainer)
                         .find(".question-id")
                         .val();
@@ -175,7 +177,7 @@
                 });
             console.log(questions);
 
-            var category = $("#inputCategory").find(":selected").text();
+            var category = $("#inputCategory").find(":selected").val();
 
             var data = {
                 Name: $("#inputName").val(),
@@ -186,7 +188,7 @@
                 Id: $("#test-id").val()
             };
 
-            $.post("/Admin/Admin/SaveEditedTest", data, function (response) {
+            makePost("/Admin/Admin/SaveEditedTest", data, function (response) {
                 window.location = "/Admin/Admin/Index";
             });
 

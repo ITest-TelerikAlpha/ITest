@@ -22,10 +22,10 @@ namespace ITest.Areas.Admin.Controllers
         private readonly IMappingProvider mapper;
         private readonly IUserTestService userTestService;
 
-        public AdminController(ITestService testService, 
+        public AdminController(ITestService testService,
             IUserService userservice,
             ICategoryService categoryService,
-            IMappingProvider mapper, 
+            IMappingProvider mapper,
             IUserTestService userTestService)
         {
             this.testService = testService;
@@ -73,19 +73,23 @@ namespace ITest.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveTest(CreateTestViewModel testViewModel)
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveTest([FromBody] CreateTestViewModel testViewModel)
         {
-            if (this.ModelState.IsValid)
+
+            if (!this.ModelState.IsValid)
             {
-                var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
-                
-                this.testService.CreateTest(testDTO);
+                return View("CreateTest");
             }
 
+            var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
+
+            this.testService.CreateTest(testDTO);
             return Content("/Admin/Admin/Index");
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public IActionResult DeleteTest(string name)
         {
             this.testService.DeteleTest(name);
@@ -93,6 +97,7 @@ namespace ITest.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public IActionResult PublishTestFromDraft(string name)
         {
             this.testService.PublishTestFromDraft(name);
@@ -109,31 +114,32 @@ namespace ITest.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditTest([FromQuery(Name ="name")] string name)
+        public IActionResult EditTest([FromQuery(Name = "name")] string name)
         {
             var testDTO = this.testService.GetTestByName(name);
             var testViewModel = this.mapper.MapTo<CreateTestViewModel>(testDTO);
             var categories = this.categoryService.GetAllCategories().ToList();
             foreach (var category in categories)
             {
-                testViewModel.Categories.Add
-                    (new CategoryViewModel()
+                testViewModel.Categories.Add(
+                    new CategoryViewModel()
                     {
                         Category = category.Name
                     }
-                    );
+                );
             }
 
             return View(testViewModel);
         }
 
         [HttpPost]
-        public IActionResult SaveEditedTest(CreateTestViewModel testViewModel)
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveEditedTest([FromBody]CreateTestViewModel testViewModel)
         {
-                var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
+            var testDTO = this.mapper.MapTo<TestDTO>(testViewModel);
 
-                this.testService.EditTest(testDTO);
-            
+            this.testService.EditTest(testDTO);
+
 
             return Content("/Admin/Admin/Index");
         }

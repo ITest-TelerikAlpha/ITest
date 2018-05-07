@@ -1,6 +1,7 @@
 ﻿using ITest.Data.Models.Abstraction;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ITest.Data.Models
@@ -12,7 +13,7 @@ namespace ITest.Data.Models
             this.Answers = new HashSet<Answer>();
         }
 
-        //public Guid Id { get; set; }
+        [Required]
         public string Content { get; set; }
         public Guid TestId { get; set; }
         public Test Test {get; set;}

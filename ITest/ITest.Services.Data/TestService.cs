@@ -101,7 +101,9 @@ namespace ITest.Services.Data
                 .Include(t => t.Questions)
                 .FirstOrDefault(t => t.Id == newTestToEdit.Id);
 
-            newTestToEdit.CategoryId = this.categoryService.GetCategoryId(test.CategoryName);
+            oldTestToEdit.Name = newTestToEdit.Name;
+            oldTestToEdit.RequestedTime = newTestToEdit.RequestedTime;
+            oldTestToEdit.CategoryId = this.categoryService.GetCategoryId(test.CategoryName);
 
             var questions = oldTestToEdit.Questions.ToList();
 
@@ -127,6 +129,10 @@ namespace ITest.Services.Data
                 var oldQuestion = this.questionsRepository.All
                     .Include(q => q.Answers)
                     .FirstOrDefault(q => q.Id == question.Id);
+                if (oldQuestion == null)
+                {
+                    oldQuestion = new Question();
+                }
 
                 foreach (var answer in oldQuestion.Answers.ToList())
                 {
@@ -160,7 +166,8 @@ namespace ITest.Services.Data
         {
             var testToDelete = this.testRepository.All.Where(t => t.Name == name)
                 .Include(t => t.Questions)
-                .ThenInclude(q => q.Answers).FirstOrDefault();
+                .ThenInclude(q => q.Answers)
+                .FirstOrDefault();
 
             foreach (var question in testToDelete.Questions)
             {
@@ -170,6 +177,7 @@ namespace ITest.Services.Data
                     answersRepository.Delete(answer);
                 }
             }
+            testRepository.Delete(testToDelete);
             //foreach (var question in testToDelete.Questions)
             //{
             //    question.IsDeleted = true;
