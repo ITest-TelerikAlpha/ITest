@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ITest.Areas.User.Models;
 using ITest.Areas.User.Models.TestViewModels;
+using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using ITest.Services.Data.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -73,9 +74,11 @@ namespace ITest.Areas.User.Controllers
         {
             if (ModelState.IsValid)
             {
-                //this.userTestService.EvaluateTest(answersViewModel);
+                var answers = this.mappingProvider.MapTo<AnswersFromUserDTO>(answersViewModel);
+                this.userTestService.EvaluateTest(answers);
 
             }
+
             return Ok();
         }
     }

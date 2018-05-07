@@ -65,6 +65,8 @@ namespace ITest.Properties
                 .ForMember(a => a.Category, o => o.MapFrom(a => a.Category))
                 .ReverseMap();
 
+            this.CreateMap<UserAnswerViewModel, UserAnswerDTO>(MemberList.Source);
+
 
 
             this.CreateMap<CheckActiveTestDTO, Test>(MemberList.Source)

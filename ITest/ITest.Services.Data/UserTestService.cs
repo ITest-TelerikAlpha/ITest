@@ -18,15 +18,21 @@ namespace ITest.Services.Data
         private readonly ITestService testService;
         private readonly IUserService userService;
         private readonly ISaver saver;
+        private readonly IUserAnswersService userAnswersService;
         private readonly IMappingProvider mapper;
+        private readonly IAnswerService answerService;
 
-        public UserTestService(IRepository<UserTest> userTestRepository, ITestService testService, IUserService userService, ISaver saver, IMappingProvider mapper)
+        public UserTestService(IRepository<UserTest> userTestRepository, ITestService testService
+            , IUserService userService, ISaver saver, IUserAnswersService userAnswersService
+            , IMappingProvider mapper, IAnswerService answerService)
         {
             this.userTestRepository = userTestRepository;
             this.testService = testService;
             this.userService = userService;
             this.saver = saver;
+            this.userAnswersService = userAnswersService;
             this.mapper = mapper;
+            this.answerService = answerService;
         }
 
         public bool CheckIfUserHasAssignedTest(string category)
@@ -132,7 +138,43 @@ namespace ITest.Services.Data
 
         public void EvaluateTest(AnswersFromUserDTO model)
         {
-            //throw new NotImplementedException();
+            var userId = this.userService.GetCurrentLoggedUser();
+            var testInDb = this.GetAssignedTestWithCategory(model.Category);
+            double score = 0.0;
+            double correctAnswerWeight = 100 / testInDb.Test.Questions.Count;
+
+            foreach (var answer in model.Answers)
+            {
+                if (this.answerService.IsAnswerCorrect(answer.AnswerId))
+                {
+                    score += correctAnswerWeight;
+                }
+                this.userAnswersService.AddUserAnswer(testInDb.Id, answer.AnswerId);
+            }
+
+            if (score == 0.0)
+            {
+                score = 0.1;
+            }
+
+            var time = DateTime.Now - testInDb.StartTime;
+
+            this.UpdateScoreAndTime(testInDb.TestId.ToString(), score, time);
+        }
+
+        public void UpdateScoreAndTime(string testId, double score, TimeSpan time)
+        {
+            var userId = this.userService.GetCurrentLoggedUser();
+
+            var userTest = this.userTestRepository.All
+                .Include(x => x.Test)
+                .SingleOrDefault(x => x.Test.Id.ToString() == testId && x.UserId == userId);
+
+
+            userTest.Score = score;
+            userTest.ExecutionTime = time;
+
+            this.saver.SaveChanges();
         }
     }
 }

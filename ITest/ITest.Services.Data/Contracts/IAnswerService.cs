@@ -7,6 +7,7 @@ namespace ITest.Services.Data.Contracts
 {
     public interface IAnswerService
     {
+        bool IsAnswerCorrect(string id);
         AnswerDTO GetRightAnswer(QuestionDTO question);
     }
 }
