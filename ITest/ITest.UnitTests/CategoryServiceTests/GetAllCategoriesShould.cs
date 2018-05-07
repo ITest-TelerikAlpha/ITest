@@ -83,5 +83,56 @@ namespace ITest.UnitTests.CategoryServiceTests
             Assert.IsInstanceOfType(collection, typeof(IQueryable<CategoryDTO>));
         }
 
+
+        [TestMethod]
+        public void ThrowArgumentNullException_WhenCollectionIsNull()
+        {
+            var mapperMock = new Mock<IMappingProvider>();
+            var saverMock = new Mock<ISaver>();
+            var categoriesRepositoryMock = new Mock<IRepository<Category>>();
+
+            var categoriesService = new CategoryService(categoriesRepositoryMock.Object, 
+                                                        saverMock.Object,
+                                                        mapperMock.Object);
+
+            
+            categoriesRepositoryMock.Setup(x => x.All).Returns((IQueryable<Category>)null);
+            Assert.ThrowsException<ArgumentNullException>(() => categoriesService.GetAllCategories());
+        }
+
+        [TestMethod]
+        public void CallProjectToMethodOnce_WhenTheColletionIsNotNull()
+        {
+            var mapperMock = new Mock<IMappingProvider>();
+            var saverMock = new Mock<ISaver>();
+            var categoriesRepositoryMock = new Mock<IRepository<Category>>();
+
+            var categoryService = new CategoryService(categoriesRepositoryMock.Object, saverMock.Object,
+                mapperMock.Object);
+
+            var models = new List<Category>()
+            {
+                new Category {Id = Guid.Parse("c29e29c6-c29a-4cca-81e0-17102bd13a7c"), Name = "Category1"},
+                new Category {Id = Guid.Parse("d987165b-3278-42d1-9918-834556989282"), Name = "Category2"},
+                new Category {Id = Guid.Parse("bb01cb4c-b260-45c7-9f43-4abc3338e211"), Name = "Category3"}
+            };
+
+            categoriesRepositoryMock.Setup(x => x.All).Returns(models.AsQueryable);
+
+            var DTOs = new List<CategoryDTO>()
+            {
+                new CategoryDTO {Name = "Category1"},
+                new CategoryDTO {Name = "Category2"},
+                new CategoryDTO {Name = "Category3"}
+            };
+
+            mapperMock.Setup(m => m.ProjectTo<CategoryDTO>(It.IsAny<IQueryable<Category>>()))
+                .Returns(new List<CategoryDTO>(DTOs).AsQueryable);
+
+            var collection = categoryService.GetAllCategories();
+
+            mapperMock.Verify(x => x.ProjectTo<CategoryDTO>(It.IsAny<IQueryable<Category>>()), Times.Once);
+        }
+
     }
 }
