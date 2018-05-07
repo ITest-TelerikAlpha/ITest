@@ -18,23 +18,32 @@ namespace ITest.Areas.User.Controllers
         private readonly IUserTestService userTestService;
         private readonly ICategoryService categoryService;
         private readonly IMappingProvider mappingProvider;
-        private readonly IList<string> link;
+        private readonly ITestService testService;
 
-        public TestController(IUserTestService userTestService, ICategoryService categoryService, IMappingProvider mappingProvider)
+        public TestController(IUserTestService userTestService, ICategoryService categoryService, IMappingProvider mappingProvider, ITestService testService)
         {
             this.userTestService = userTestService;
             this.categoryService = categoryService;
             this.mappingProvider = mappingProvider;
-            this.link = new List<string>();
+            this.testService = testService;
         }
         public IActionResult Index(string category)
         {
-            //check if user has active test
-                
+            var activeTestCategory = this.userTestService.CheckIfUserHasActiveTest();
+            if (activeTestCategory != null && activeTestCategory.Category.Name != category)
+            {
+                return RedirectToAction("Index", "Test", new { category = activeTestCategory.Category.Name });
+            }
+
             if (this.categoryService.CheckIfCategoryExists(category))
             {
                 var test = this.userTestService.GetAssignedTestWithCategory(category);
-                
+
+                if (test == null)
+                {
+                    return RedirectToAction("Index", "Home", new { area = "User" });
+                }
+              
                 if (test.Score != 0.0)
                 {
                     return RedirectToAction("Index", "Home", new { area = "User" });
@@ -45,8 +54,9 @@ namespace ITest.Areas.User.Controllers
 
                 if (testModel.RequestedTime < 1)
                 {
-                    //calculate test.
-                    //return RedirectToAction("Index", "Home", new { area = "User" });
+                    this.userTestService.FailUserNoSubmit(test.Test.Id.ToString());
+
+                    return RedirectToAction("Index", "Home", new { area = "User" });
                 }
 
                 testModel.Category = test.Test.CategoryName;
@@ -61,7 +71,11 @@ namespace ITest.Areas.User.Controllers
         [HttpPost]
         public  IActionResult SubmitTest(UserAnswersViewModel answersViewModel)
         {
+            if (ModelState.IsValid)
+            {
+                //this.userTestService.EvaluateTest(answersViewModel);
 
+            }
             return Ok();
         }
     }

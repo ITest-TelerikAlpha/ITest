@@ -11,6 +11,7 @@ namespace ITest.Areas.User.Models.TestViewModels
         {
             this.UserAnswers = new HashSet<UserAnswerViewModel>();
         }
+        public string Category { get; set; }
         public ICollection<UserAnswerViewModel> UserAnswers { get; set; }
     }
 }

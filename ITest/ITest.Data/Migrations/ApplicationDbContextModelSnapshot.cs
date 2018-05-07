@@ -147,6 +147,8 @@ namespace ITest.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
+                    b.Property<TimeSpan?>("ExecutionTime");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<double?>("Score");

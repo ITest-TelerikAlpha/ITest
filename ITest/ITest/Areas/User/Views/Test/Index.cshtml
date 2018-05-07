@@ -6,7 +6,7 @@
     <form method="post">
         <h1>@Model.Name</h1>
         <div>
-            <div class="test-category"><p>Category: @Model.Category</p></div>
+            <div id="test-category" value="@Model.Category"><p>Category: @Model.Category</p></div>
             <div id="countdown">
                 <div class="values value-size"></div>
             </div>
@@ -15,23 +15,38 @@
         {
             @Html.Partial("QuestionPartial", question);
         }
-        <button type="submit" id="publish" class="btn btn-primary pull-right submit" disabled>Submit</button>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Submit Test
+        </button>
     </form>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You are trying to submit your test.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="publish" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts{
     <script src="~/js/Timer.js"></script>
     <script>
-        $(function () {
-            $('.radio-button').on('click', function () {
-                if ($("input[type='radio']").filter(":checked").length === $(".col-md-12").length - 1) {
-                    $('#publish').attr('disabled', false);
-                }
-            });
-        });
-        
 
         $(function () {
             var timer = new Timer();
@@ -41,7 +56,7 @@
                 $('#countdown .values').html(timer.getTimeValues().toString());
             });
             timer.addEventListener('targetAchieved', function (e) {
-                window.alert("End");
+                $('#publish').click();
             });
         });
 
@@ -56,11 +71,14 @@
                 });
             });
 
+            var category = $('#test-category').attr("value");
+
             var data = {
-                UserAnswers: answers
+                UserAnswers: answers,
+                Category : category
             }
 
-            $.post("Test/SubmitTest", data, function (response) { 
+            $.post("Test/SubmitTest", data, function (response) {
                 window.location = response;
             });
         })

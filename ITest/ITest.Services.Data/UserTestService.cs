@@ -94,5 +94,45 @@ namespace ITest.Services.Data
         {
             return this.mapper.ProjectTo<UserTestDTO>(this.userTestRepository.All);
         }
+
+        public CheckActiveTestDTO CheckIfUserHasActiveTest()
+        {
+            var userId = this.userService.GetCurrentLoggedUser();
+
+            var test = this.userTestRepository.All
+                .Where(x => x.UserId == userId && x.ExecutionTime == TimeSpan.Zero && x.Score == 0.0)
+                .Include(x => x.Test)
+                .ThenInclude(x => x.Category)
+                .FirstOrDefault();
+
+            if (test is null)
+            {
+                return null;
+            }
+
+            var testDTO = this.mapper.MapTo<CheckActiveTestDTO>(test.Test);
+
+            return testDTO;
+        }
+
+        public void FailUserNoSubmit(string testId)
+        {
+            var userId = this.userService.GetCurrentLoggedUser();
+
+            var userTest = this.userTestRepository.All
+                .Include(x => x.Test)
+                .SingleOrDefault(x => x.Test.Id.ToString() == testId && x.UserId == userId);
+
+
+            userTest.Score = 0.1;
+            userTest.ExecutionTime = new TimeSpan(0,0,userTest.Test.RequestedTime * 60);
+
+            this.saver.SaveChanges();
+        }
+
+        public void EvaluateTest(AnswersFromUserDTO model)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

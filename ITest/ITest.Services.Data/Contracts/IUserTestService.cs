@@ -12,10 +12,14 @@ namespace ITest.Services.Data.Contracts
 
         void AssignTestToUser(string category);
 
-        void Publish(UserTestDTO dto);
+        CheckActiveTestDTO CheckIfUserHasActiveTest();
+
+        void Publish(UserTestDTO dto);  
 
         UserTestDTO GetAssignedTestWithCategory(string category);
 
        IQueryable<UserTestDTO> GetAllTestScoresWithUsers();
+        void FailUserNoSubmit(string id);
+        void EvaluateTest(AnswersFromUserDTO answers);
     }
 }

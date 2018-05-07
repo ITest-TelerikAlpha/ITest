@@ -18,5 +18,7 @@ namespace ITest.DTO
         public double Score { get; set; }
 
         public DateTime StartTime { get; set; } = DateTime.Now;
+
+        public TimeSpan ExecutionTime { get; set; }
     }
 }

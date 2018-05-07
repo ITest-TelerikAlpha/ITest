@@ -3,6 +3,7 @@ using ITest.Areas.Admin.Models;
 using ITest.Areas.Admin.Models.AdminViewModels;
 using ITest.Areas.User.Models;
 using ITest.Areas.User.Models.HomeViewModels;
+using ITest.Areas.User.Models.TestViewModels;
 using ITest.Data.Models;
 using ITest.DTO;
 using System;
@@ -59,6 +60,17 @@ namespace ITest.Properties
                .ReverseMap();
 
             //take test mappings
+            this.CreateMap<UserAnswersViewModel, AnswersFromUserDTO>(MemberList.Source)
+                .ForMember(a => a.Answers, o => o.MapFrom(a => a.UserAnswers))
+                .ForMember(a => a.Category, o => o.MapFrom(a => a.Category))
+                .ReverseMap();
+
+
+
+            this.CreateMap<CheckActiveTestDTO, Test>(MemberList.Source)
+                .ForMember(a => a.Category, o => o.MapFrom(a => a.Category))
+                .ReverseMap();
+
             this.CreateMap<TakeTestViewModel, TestDTO>(MemberList.Source)
                 .ForMember(q => q.Questions, o => o.MapFrom(a => a.Questions))
                 .ReverseMap();

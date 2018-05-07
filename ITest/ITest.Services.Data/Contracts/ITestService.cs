@@ -13,12 +13,15 @@ namespace ITest.Services.Data.Contracts
     public interface ITestService
     {
         void CreateTest(TestDTO test);
+
         TestDTO GetRandomTestFromCategory(CategoryDTO category);
+
         void PublishTestFromDraft(string name);
         void EditTest(TestDTO test);
         void DeteleTest(string name);
         TestDTO GetTestById(string id);
         TestDTO GetTestByName(string name);
+
         IQueryable<TestDTO> GetAllTests();
     }
 }

@@ -26,7 +26,11 @@ namespace ITest.Areas.User.Controllers
 
         public IActionResult Index()
         {
-            //Check if there is an active test
+            var activeTestCategory = this.userTestService.CheckIfUserHasActiveTest();
+            if (activeTestCategory != null)
+            {
+                return RedirectToAction("Index", "Test", new { category = activeTestCategory.Category.Name });
+            }
 
             var model = new CategoryCollectionViewModel();
             var collection = categoryService.GetAllCategories();

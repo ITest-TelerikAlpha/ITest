@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ITest.Models;
 using ITest.Data.Models;
+using ITest.Data.Models.Abstraction;
 
 namespace ITest.Data
 {
@@ -69,5 +70,31 @@ namespace ITest.Data
                 .HasForeignKey(x => x.AnswerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
+        public override int SaveChanges()
+        {
+            this.ApplyEditInfoRules();
+            return base.SaveChanges();
+        }
+
+        private void ApplyEditInfoRules()
+        {
+            var newlyCreatedEntities = this.ChangeTracker.Entries()
+                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added) || (e.State == EntityState.Modified)));
+
+            foreach (var entry in newlyCreatedEntities)
+            {
+                var entity = (IAuditable)entry.Entity;
+
+                if (entry.State == EntityState.Added && entity.CreatedOn == null)
+                {
+                    entity.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now;
+                }
+            }
+        }   
     }
 }

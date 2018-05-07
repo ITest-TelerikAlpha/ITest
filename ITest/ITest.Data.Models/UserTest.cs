@@ -28,6 +28,8 @@ namespace ITest.Data.Models
 
         public DateTime StartTime { get; set; }
 
+        public TimeSpan ExecutionTime { get; set; }
+
         public ICollection<AnswersToUserTest> AnswersToUserTests { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
