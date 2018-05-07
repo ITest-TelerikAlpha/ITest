@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ITest.Data.Models.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ITest.Data.Models
 {
-    public class AnswersToUserTest
+    public class AnswersToUserTest : IDeletable
     {
         [Key]
         public Guid Id { get; set; }
@@ -17,5 +18,7 @@ namespace ITest.Data.Models
         public Guid AnswerId { get; set; }
 
         public Answer Answer { get; set; }
+        public bool IsDeleted { get ; set ; }
+        public DateTime? DeletedOn { get ; set ; }
     }
 }

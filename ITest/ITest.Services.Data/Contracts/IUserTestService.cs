@@ -18,8 +18,10 @@ namespace ITest.Services.Data.Contracts
 
         UserTestDTO GetAssignedTestWithCategory(string category);
 
-       IQueryable<UserTestDTO> GetAllTestScoresWithUsers();
+        IQueryable<UserTestDTO> GetAllTestScoresWithUsers();
         void FailUserNoSubmit(string id);
         void EvaluateTest(AnswersFromUserDTO answers);
+
+        void UpdateScoreAndTime(string testId, double score, TimeSpan time);
     }
 }

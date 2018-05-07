@@ -32,5 +32,13 @@ namespace ITest.Services.Data
             //TODO
             throw new NotImplementedException();
         }
+
+        public bool IsAnswerCorrect(string id)
+        {
+            var answer = this.answerRepository.All
+                         .FirstOrDefault(x => x.Id.ToString() == id);
+
+            return answer.IsCorrect;
+        }
     }
 }

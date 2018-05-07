@@ -22,6 +22,8 @@ namespace ITest.Data
         DbSet<Answer> Answers { get; set; }
         DbSet<Test> Tests { get; set; }
         DbSet<UserTest> UserTest { get; set; }
+        DbSet<AnswersToUserTest> AnswersToUserTest { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
