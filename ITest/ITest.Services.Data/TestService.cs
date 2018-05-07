@@ -52,8 +52,7 @@ namespace ITest.Services.Data
             }
 
             var testToAdd = this.mapper.MapTo<Test>(test);
-            testToAdd.CategoryId = this.categoryService.GetCategoryId(test.CategoryName);
-            // testToAdd.CategoryId = testToAdd.Category.Id; 
+            testToAdd.CategoryId = this.categoryService.GetCategoryId(test.CategoryName); 
             this.testRepository.Add(testToAdd);
             this.saver.SaveChanges();
         }
