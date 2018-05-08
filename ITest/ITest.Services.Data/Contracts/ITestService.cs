@@ -21,7 +21,7 @@ namespace ITest.Services.Data.Contracts
         void DeteleTest(string name);
         TestDTO GetTestById(string id);
         TestDTO GetTestByName(string name);
-
+        void DisableTest(string name);
         IQueryable<TestDTO> GetAllTests();
     }
 }

@@ -43,7 +43,7 @@
                                                         <td class="text-center">
                                                             <a class="btn btn-primary disabled" href="#">Publish</a>
                                                             <a class="btn btn-primary disabled" href="#">Edit</a>
-                                                            <a class="btn btn-primary">Disable</a>
+                                                            <a class="btn btn-primary disable-test-button">Disable</a>
                                                         </td>
                                                     }
                                                     else
@@ -105,6 +105,17 @@
                 btn.parent().parent().remove();
             });
 
+            $(".test-row").on("click", ".disable-test-button", function () {
+                var btn = $(this);
+                btn.addClass("disabled");
+                var testName = btn.parent().parent().find(".test-name").text();
+                var data = {
+                    name: testName
+                };
+                $.post("/Admin/Admin/DisableTest", data);
+                
+            });
+
             $(".test-row").on("click", ".publish-test-button", function () {
                 var btn = $(this);
                 var testName = btn.parent().parent().find(".test-name").text();
@@ -112,10 +123,14 @@
                     name: testName
                 };
                 $.post("/Admin/Admin/PublishTestFromDraft", data);
-                btn.parent().parent().find(".status").text("Published");
+                btn.parent().parent().find(".status")
+                    .text("Published");
                 btn.addClass("disabled");
-                var editButton = btn.parent().find(".edit-test-button");
-                var deleteButton = btn.parent().find(".delete-test-button").text("Disable");
+                var editButton = btn.parent()
+                    .find(".edit-test-button");
+                var deleteButton = btn.parent()
+                    .find(".delete-test-button")
+                    .text("Disable");
                 editButton.addClass("disabled");
             });
         });

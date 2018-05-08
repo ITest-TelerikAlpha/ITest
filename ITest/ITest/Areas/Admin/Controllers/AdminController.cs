@@ -98,6 +98,14 @@ namespace ITest.Areas.Admin.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
+        public IActionResult DisableTest(string name)
+        {
+            this.testService.DisableTest(name);
+            return Ok();
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
         public IActionResult PublishTestFromDraft(string name)
         {
             this.testService.PublishTestFromDraft(name);

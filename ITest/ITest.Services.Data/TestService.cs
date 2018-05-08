@@ -82,6 +82,13 @@ namespace ITest.Services.Data
             this.saver.SaveChanges();
         }
 
+        public void DisableTest(string name)
+        {
+            var testToDisable = this.testRepository.All.Where(t => t.Name == name).FirstOrDefault();
+            testToDisable.IsPublished = false;
+            this.saver.SaveChanges();
+        }
+
         public TestDTO GetTestByName(string name)
         {
             var test = this.testRepository.All
@@ -178,15 +185,6 @@ namespace ITest.Services.Data
                 }
             }
             testRepository.Delete(testToDelete);
-            //foreach (var question in testToDelete.Questions)
-            //{
-            //    question.IsDeleted = true;
-            //    foreach (var answer in question.Answers)
-            //    {
-            //        answer.IsDeleted = true;
-            //    }
-            //}
-            //this.testRepository.Delete(testToDelete);
             this.saver.SaveChanges();
         }
         public TestDTO GetTestById(string id)
