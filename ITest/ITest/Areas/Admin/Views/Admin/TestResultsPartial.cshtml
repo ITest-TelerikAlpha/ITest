@@ -13,6 +13,7 @@
             <th>Reuqested Time</th>
             <th>Execution Time</th>
             <th>Results</th>
+            <th>Passed/Failed</th>
         </tr>
     </thead>
     @{
@@ -26,7 +27,22 @@
                     <td>@test.CategoryName</td>
                     <td>@test.RequestedTime</td>
                     <td>@string.Format("{0}:{1}:{2}", @test.ExecutionTime.Hours, @test.ExecutionTime.Minutes, @test.ExecutionTime.Seconds)</td>
-                    <td>@test.Score</td>
+                    @if (@test.Score == 0.1)
+                    {
+                        <td>0</td>
+                    }
+                    else
+                    {
+                        <td>@test.Score</td>
+                    }
+                    if(@test.Score>=80)
+                    {
+                    <td>Passed</td>
+                    }
+                    else
+                    {
+                    <td>Failed</td>
+                    }
                 </tr>
             }
         }
