@@ -159,7 +159,8 @@ namespace ITest.Areas.Admin.Controllers
                     TestName = this.testService.GetTestById(test.TestId.ToString()).Name,
                     Score = test.Score,
                     CategoryName = test.Test.CategoryName,
-                    RequestedTime = test.Test.RequestedTime
+                    RequestedTime = test.Test.RequestedTime,
+                    ExecutionTime = test.ExecutionTime
                 });
             }
 

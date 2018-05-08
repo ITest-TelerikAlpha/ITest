@@ -25,8 +25,8 @@
                     <td>@test.UserEmail</td>
                     <td>@test.CategoryName</td>
                     <td>@test.RequestedTime</td>
+                    <td>@string.Format("{0}:{1}:{2}", @test.ExecutionTime.Hours, @test.ExecutionTime.Minutes, @test.ExecutionTime.Seconds)</td>
                     <td>@test.Score</td>
-                    <td>1</td>
                 </tr>
             }
         }

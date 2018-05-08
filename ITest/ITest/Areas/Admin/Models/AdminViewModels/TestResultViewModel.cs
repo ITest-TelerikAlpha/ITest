@@ -12,5 +12,7 @@ namespace ITest.Areas.Admin.Models.AdminViewModels
         public double Score { get; set; }
         public string CategoryName { get; set; }
         public int RequestedTime { get; set; }
+
+        public TimeSpan ExecutionTime { get; set; }
     }
 }
