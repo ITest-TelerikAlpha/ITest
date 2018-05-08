@@ -46,7 +46,6 @@ namespace ITest.UnitTests.CategoryServiceTests
             var collection = categoryService.GetAllCategories();
 
             Assert.AreEqual(models.Count, collection.Count());
-            Assert.IsInstanceOfType(collection, typeof(IQueryable<CategoryDTO>));
         }
 
         [TestMethod]
