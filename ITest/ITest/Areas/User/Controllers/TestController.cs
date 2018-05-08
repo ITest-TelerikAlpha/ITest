@@ -7,6 +7,7 @@ using ITest.Areas.User.Models.TestViewModels;
 using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using ITest.Services.Data.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,6 +29,8 @@ namespace ITest.Areas.User.Controllers
             this.mappingProvider = mappingProvider;
             this.testService = testService;
         }
+
+        [Authorize]
         public IActionResult Index(string category)
         {
             var activeTestCategory = this.userTestService.CheckIfUserHasActiveTest();
@@ -44,7 +47,7 @@ namespace ITest.Areas.User.Controllers
                 {
                     return RedirectToAction("Index", "Home", new { area = "User" });
                 }
-              
+
                 if (test.Score != 0.0)
                 {
                     return RedirectToAction("Index", "Home", new { area = "User" });
@@ -70,7 +73,9 @@ namespace ITest.Areas.User.Controllers
         }
 
         [HttpPost]
-        public  IActionResult SubmitTest(UserAnswersViewModel answersViewModel)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult SubmitTest([FromBody] UserAnswersViewModel answersViewModel)
         {
             if (ModelState.IsValid)
             {

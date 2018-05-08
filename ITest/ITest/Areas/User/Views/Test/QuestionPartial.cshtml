@@ -3,7 +3,7 @@
 
 <div class="col-md-12">
     <div class="alert bg-info" role="alert">
-        @Model.Description
+        @Html.Raw(@Model.Description);
     </div>
     @foreach (var answer in Model.Answers)
     {

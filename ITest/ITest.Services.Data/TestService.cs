@@ -63,6 +63,7 @@ namespace ITest.Services.Data
             var randomInstance = new Random();
 
             var allTestsFromCategory = testRepository.All
+                .Include(x => x.Category)
                 .Where(t => t.Category.Name == category.Name &&
                             t.IsPublished)
                             .ToList();

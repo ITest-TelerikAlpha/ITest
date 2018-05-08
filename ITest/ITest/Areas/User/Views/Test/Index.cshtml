@@ -78,8 +78,8 @@
                 Category : category
             }
 
-            $.post("Test/SubmitTest", data, function (response) {
-                window.location = response;
+            makePost("Test/SubmitTest", data, function (response) {
+                window.location = "/User/Home/Index";
             });
         })
     </script>

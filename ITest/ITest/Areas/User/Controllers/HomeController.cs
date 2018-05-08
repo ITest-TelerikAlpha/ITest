@@ -6,6 +6,7 @@ using ITest.Areas.User.Models.HomeViewModels;
 using ITest.DTO;
 using ITest.Infrastructure.Providers;
 using ITest.Services.Data.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITest.Areas.User.Controllers
@@ -24,6 +25,7 @@ namespace ITest.Areas.User.Controllers
             this.mappingProvider = mappingProvider;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var activeTestCategory = this.userTestService.CheckIfUserHasActiveTest();
@@ -53,6 +55,7 @@ namespace ITest.Areas.User.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult StartTest(string category)
         {
             if (!this.categoryService.CheckIfCategoryExists(category))
