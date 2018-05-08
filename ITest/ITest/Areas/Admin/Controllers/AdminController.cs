@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ITest.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class AdminController : Controller
     {
