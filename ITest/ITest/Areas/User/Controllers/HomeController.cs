@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ITest.Areas.User.Controllers
 {
     [Area("User")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -24,8 +25,8 @@ namespace ITest.Areas.User.Controllers
             this.userTestService = userTestService;
             this.mappingProvider = mappingProvider;
         }
+        
 
-        [Authorize]
         public IActionResult Index()
         {
             var activeTestCategory = this.userTestService.CheckIfUserHasActiveTest();
@@ -55,7 +56,6 @@ namespace ITest.Areas.User.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult StartTest(string category)
         {
             if (!this.categoryService.CheckIfCategoryExists(category))

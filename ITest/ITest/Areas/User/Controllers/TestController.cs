@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ITest.Areas.User.Controllers
 {
     [Area("User")]
+    [Authorize]
     public class TestController : Controller
     {
         private readonly IUserTestService userTestService;
@@ -29,8 +30,8 @@ namespace ITest.Areas.User.Controllers
             this.mappingProvider = mappingProvider;
             this.testService = testService;
         }
+        
 
-        [Authorize]
         public IActionResult Index(string category)
         {
             var activeTestCategory = this.userTestService.CheckIfUserHasActiveTest();
@@ -73,7 +74,6 @@ namespace ITest.Areas.User.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public IActionResult SubmitTest([FromBody] UserAnswersViewModel answersViewModel)
         {
