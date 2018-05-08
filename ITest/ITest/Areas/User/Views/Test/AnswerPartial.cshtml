@@ -1,7 +1,9 @@
 ﻿@model ITest.Areas.User.Models.HomeViewModels.AnswerViewModel
 
 <div>
+    <input type="radio" class="radio-button" name="@Model.QuestionId" value="@Model.Id">
+
     <label>
-        <input type="radio" class ="radio-button" name="@Model.QuestionId" value="@Model.Id"> <span class="label-text">@Html.Raw(@Model.Description)</span>
+        @Html.Raw(@Model.Description)
     </label>
 </div>

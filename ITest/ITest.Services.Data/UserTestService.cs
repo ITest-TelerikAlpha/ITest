@@ -37,6 +37,11 @@ namespace ITest.Services.Data
 
         public bool CheckIfUserHasAssignedTest(string category)
         {
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
             var userId = this.userService.GetCurrentLoggedUser();
 
             var test = this.userTestRepository.All
@@ -73,6 +78,11 @@ namespace ITest.Services.Data
 
         public void AssignTestToUser(string category)
         {
+            if (string.IsNullOrEmpty(category))
+            {
+                throw new ArgumentException("message", nameof(category));
+            }
+
             var userId = this.userService.GetCurrentLoggedUser();
 
             var categoryDTO = new CategoryDTO() { Name = category };
